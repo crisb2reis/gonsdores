@@ -8,4 +8,15 @@ const isConfigured = supabaseUrl.startsWith('http');
 
 export const supabase = isConfigured
     ? createClient(supabaseUrl, supabaseAnonKey)
-    : (null as any); // O app não quebrará, mas as chamadas ao Supabase retornarão erro controlado
+    : new Proxy({} as any, {
+        get: () => () => ({
+            select: () => ({ eq: () => ({ order: () => Promise.resolve({ data: [], error: null }) }) }),
+            insert: () => Promise.resolve({ data: null, error: null }),
+            update: () => ({ eq: () => Promise.resolve({ data: null, error: null }) }),
+            from: () => ({
+                select: () => ({ eq: () => ({ order: () => Promise.resolve({ data: [], error: null }) }) }),
+                insert: () => Promise.resolve({ data: null, error: null }),
+                update: () => ({ eq: () => Promise.resolve({ data: null, error: null }) })
+            })
+        })
+    });
