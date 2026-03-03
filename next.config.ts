@@ -1,9 +1,11 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  reactCompiler: true,
+  output: 'export', // Necessário para GitHub Pages
+  basePath: '/gonsdores', // Nome do seu repositório
+  assetPrefix: '/gonsdores/',
   images: {
+    unoptimized: true, // GitHub Pages não suporta otimização de imagem nativa do Next.js
     remotePatterns: [
       {
         protocol: 'https',
