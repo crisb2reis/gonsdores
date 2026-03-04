@@ -5,14 +5,24 @@ import { Clock, MapPin, User, X } from "lucide-react";
 import Image from "next/image";
 import { getAssetPath } from "@/lib/utils";
 
-// Dummy data for calendar
-const events = [
+interface CalendarEvent {
+    id: number;
+    day: string;
+    month: string;
+    title: string;
+    category?: string;
+    time: string;
+    place: string;
+    leader: string;
+}
+
+const events: CalendarEvent[] = [
     {
         id: 1,
         day: "03",
         month: "MAR",
         title: "Famílias que oram justas permanecem unidas",
-        category: "Especial",
+        // category: "Especial",
         time: "19h00 - 20h00",
         place: "Igreja São Peregrino",
         leader: "Denilson - GO NS Dores",
@@ -22,17 +32,17 @@ const events = [
         day: "10",
         month: "MAR",
         title: "O perdão como chave de cura dentro do lar",
-        category: "Formação",
+        // category: "Formação",
         time: "19h00 - 20h00",
         place: "Igreja São Peregrino",
         leader: "Flaviano - Missão Coração em Chamas",
     },
     {
         id: 3,
-        day: "",
+        day: "17",
         month: "MAR",
         title: "O Espírito Santo renova a casa: reconstruindo famílias sobre a rocha",
-        category: "Louvor",
+        // category: "Louvor",
         time: "19h00 - 20h00",
         place: "Igreja São Peregrino",
         leader: "Cesar Flores - GO NS Dores",
@@ -42,7 +52,7 @@ const events = [
         day: "24",
         month: "MAR",
         title: "Cura das gerações: rompendo ciclos espirituais e emocionais",
-        category: "Louvor",
+        // category: "Louvor",
         time: "19h00 - 20h00",
         place: "Igreja São Peregrino",
         leader: "Sebastião - GO NS Dores",
@@ -88,12 +98,14 @@ export default function Calendario() {
 
                                 {/* Event Info */}
                                 <div className="flex-grow space-y-3 w-full">
-                                    <div className="flex items-center gap-3">
-                                        <span className="px-3 py-1 bg-purple-50 text-purple-700 text-xs font-bold rounded-full uppercase tracking-wide">
-                                            {event.category}
-                                        </span>
+                                    {/* <div className="flex items-center gap-3">
+                                        {event.category && (
+                                            <span className="px-3 py-1 bg-purple-50 text-purple-700 text-xs font-bold rounded-full uppercase tracking-wide">
+                                                {event.category}
+                                            </span>
+                                        )}
                                         <h3 className="font-serif text-xl font-bold text-gray-900">{event.title}</h3>
-                                    </div>
+                                    </div> */}
 
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-gray-600">
                                         <div className="flex items-center gap-2">
