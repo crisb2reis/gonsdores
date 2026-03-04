@@ -1,22 +1,14 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
 
-// Validação simples para evitar erro de runtime caso as chaves não estejam configuradas
-const isConfigured = supabaseUrl.startsWith('http');
+const isConfigured = supabaseUrl.startsWith('https://');
 
-export const supabase = isConfigured
+// Cliente real quando configurado, cliente nulo quando não configurado
+// (evita erros de runtime no GitHub Pages sem as env vars)
+export const supabase: SupabaseClient = isConfigured
     ? createClient(supabaseUrl, supabaseAnonKey)
-    : new Proxy({} as any, {
-        get: () => () => ({
-            select: () => ({ eq: () => ({ order: () => Promise.resolve({ data: [], error: null }) }) }),
-            insert: () => Promise.resolve({ data: null, error: null }),
-            update: () => ({ eq: () => Promise.resolve({ data: null, error: null }) }),
-            from: () => ({
-                select: () => ({ eq: () => ({ order: () => Promise.resolve({ data: [], error: null }) }) }),
-                insert: () => Promise.resolve({ data: null, error: null }),
-                update: () => ({ eq: () => Promise.resolve({ data: null, error: null }) })
-            })
-        })
-    });
+    : createClient('https://placeholder.supabase.co', 'placeholder-key-not-real');
+
+export const isSupabaseConfigured = isConfigured;

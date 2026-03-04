@@ -56,11 +56,11 @@ jobs:
         run: npm ci
       - name: Build with Next.js
         run: npm run build
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
       - name: Debug Output
-        run: |
-          pwd
-          ls -R
-          ls -R out/ || echo "out/ NOT FOUND"
+        run: ls -R out/ || echo "out/ NOT FOUND"
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

@@ -35,7 +35,11 @@ export default function PedidosOracao() {
                     status: "pending"
                 }]);
 
-            if (supabaseError) throw supabaseError;
+            if (supabaseError) {
+                setError(`Erro do Supabase: ${supabaseError.message} (código: ${supabaseError.code})`);
+                console.error("Supabase error:", supabaseError);
+                return;
+            }
 
             setIsSuccess(true);
             setNome("");
@@ -43,11 +47,10 @@ export default function PedidosOracao() {
             setRequestText("");
             setVisibility("private");
 
-            // Reset success message after 5 seconds
             setTimeout(() => setIsSuccess(false), 5000);
-        } catch (err) {
+        } catch (err: any) {
             console.error("Erro ao enviar pedido:", err);
-            setError("Ocorreu um erro ao enviar seu pedido. Tente novamente.");
+            setError(`Erro inesperado: ${err?.message || "desconhecido"}`);
         } finally {
             setIsSubmitting(false);
         }
