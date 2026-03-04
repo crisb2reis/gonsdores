@@ -87,7 +87,7 @@ export default function Home() {
           <div className="bg-purple-900 rounded-[2.5rem] overflow-hidden flex flex-col lg:flex-row shadow-2xl">
             <div className="lg:w-1/2 relative min-h-[400px]">
               <Image
-                src={getAssetPath("/terco.png")}
+                src={getAssetPath("/pe_da_cruz_vertical.jpeg")}
                 alt="Pessoas rezando o terço"
                 fill
                 className="object-cover"
