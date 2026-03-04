@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import { HeartHandshake, Clock, User, Mail, Eye, EyeOff, Trash2 } from "lucide-react";
 
@@ -90,12 +91,12 @@ export default function AdminPedidos() {
                             <p className="text-gray-600">Gerencie os pedidos enviados pela comunidade</p>
                         </div>
                     </div>
-                    <a
+                    <Link
                         href="/admin/testemunhos"
                         className="text-sm font-semibold text-purple-700 hover:text-purple-900 bg-white border border-purple-200 px-4 py-2 rounded-xl transition-colors"
                     >
-                        Ver Testemunhos →
-                    </a>
+                        Ver Testemunhos &rarr;
+                    </Link>
                 </div>
 
                 {/* Stats + Filters */}
@@ -105,8 +106,8 @@ export default function AdminPedidos() {
                             key={f}
                             onClick={() => setFilter(f)}
                             className={`px-4 py-2 rounded-full font-semibold text-sm transition-all ${filter === f
-                                    ? "bg-purple-700 text-white shadow"
-                                    : "bg-white text-gray-600 border border-gray-200 hover:border-purple-300"
+                                ? "bg-purple-700 text-white shadow"
+                                : "bg-white text-gray-600 border border-gray-200 hover:border-purple-300"
                                 }`}
                         >
                             {f === "all" ? `Todos (${requests.length})`
@@ -192,8 +193,8 @@ export default function AdminPedidos() {
                                             onClick={() => updateStatus(r.id, isPrayed ? "pending" : "prayed")}
                                             title={isPrayed ? "Marcar como pendente" : "Marcar como orado"}
                                             className={`flex items-center justify-center gap-2 px-5 py-3 rounded-xl font-bold text-sm transition-colors ${isPrayed
-                                                    ? "bg-gray-100 hover:bg-gray-200 text-gray-600"
-                                                    : "bg-green-600 hover:bg-green-700 text-white"
+                                                ? "bg-gray-100 hover:bg-gray-200 text-gray-600"
+                                                : "bg-green-600 hover:bg-green-700 text-white"
                                                 }`}
                                         >
                                             {isPrayed ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}

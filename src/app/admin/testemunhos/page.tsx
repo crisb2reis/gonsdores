@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import { Check, X, Shield, Clock, User } from "lucide-react";
 
@@ -63,12 +64,12 @@ export default function AdminTestemunhos() {
                             <p className="text-gray-600">Gerencie os testemunhos enviados pela comunidade</p>
                         </div>
                     </div>
-                    <a
+                    <Link
                         href="/admin/pedidos"
                         className="text-sm font-semibold text-purple-700 hover:text-purple-900 bg-white border border-purple-200 px-4 py-2 rounded-xl transition-colors"
                     >
                         Ver Pedidos de Oração →
-                    </a>
+                    </Link>
                 </div>
 
                 {loading ? (
