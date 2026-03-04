@@ -175,7 +175,7 @@ export default function PedidosOracao() {
                     <h2 className="font-serif text-3xl font-bold text-gray-900 border-b border-gray-200 pb-2">Pedidos da Comunidade</h2>
                     <div className="flex overflow-x-auto pb-6 gap-6 snap-x hide-scroll">
                         {[1, 2, 3, 4].map((item) => (
-                            <div key={item} className="min-w-[300px] sm:min-w-[350px] bg-white p-6 rounded-2xl shadow-sm border border-gray-100 shrink-0 snap-start">
+                            <div key={item} className="w-[280px] sm:w-[350px] min-w-0 bg-white p-6 rounded-2xl shadow-sm border border-gray-100 shrink-0 snap-start">
                                 <div className="flex items-center justify-between mb-4">
                                     <div className="flex items-center gap-2">
                                         <HeartHandshake className="w-5 h-5 text-purple-500" />
