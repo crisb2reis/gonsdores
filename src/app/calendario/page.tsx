@@ -98,14 +98,9 @@ export default function Calendario() {
 
                                 {/* Event Info */}
                                 <div className="flex-grow space-y-3 w-full">
-                                    {/* <div className="flex items-center gap-3">
-                                        {event.category && (
-                                            <span className="px-3 py-1 bg-purple-50 text-purple-700 text-xs font-bold rounded-full uppercase tracking-wide">
-                                                {event.category}
-                                            </span>
-                                        )}
+                                    <div className="flex items-center gap-3">
                                         <h3 className="font-serif text-xl font-bold text-gray-900">{event.title}</h3>
-                                    </div> */}
+                                    </div>
 
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-gray-600">
                                         <div className="flex items-center gap-2">
