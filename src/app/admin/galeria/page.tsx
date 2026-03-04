@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabase";
-import { Camera, Plus, Trash2, Calendar, Link as LinkIcon, Image as ImageIcon, Loader2, ArrowLeft } from "lucide-react";
+import { supabase, isSupabaseConfigured } from "@/lib/supabase";
+import { Camera, Plus, Trash2, Calendar, Link as LinkIcon, Image as ImageIcon, Loader2, AlertCircle } from "lucide-react";
 import Link from "next/link";
 
 interface Photo {
@@ -85,6 +85,16 @@ export default function AdminGaleria() {
     return (
         <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-5xl mx-auto">
+
+                {!isSupabaseConfigured && (
+                    <div className="mb-6 bg-red-50 border-2 border-red-200 p-4 rounded-2xl flex items-center gap-3 text-red-700">
+                        <AlertCircle className="w-6 h-6 shrink-0" />
+                        <div>
+                            <p className="font-bold">Atenção: Banco de dados não configurado!</p>
+                            <p className="text-sm text-red-600">O GitHub Pages ainda não recebeu suas chaves do Supabase. Verifique os "Secrets" no GitHub e aguarde o novo deploy terminar.</p>
+                        </div>
+                    </div>
+                )}
 
                 {/* Header */}
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
