@@ -29,7 +29,7 @@ export default function AtividadesSemanais() {
                             <Clock className="w-6 h-6 text-purple-600 mt-1" />
                             <div>
                                 <p className="text-sm text-gray-500 font-medium">Dia e Horário</p>
-                                <p className="font-semibold text-gray-900">Quarta-feira, 19h30</p>
+                                <p className="font-semibold text-gray-900">Terça-feira, 20h00</p>
                                 <p className="text-sm text-gray-500">Logo após a Missa das 19h</p>
                             </div>
                         </div>
@@ -37,8 +37,8 @@ export default function AtividadesSemanais() {
                             <MapPin className="w-6 h-6 text-purple-600 mt-1" />
                             <div>
                                 <p className="text-sm text-gray-500 font-medium">Local</p>
-                                <p className="font-semibold text-gray-900">Capela Principal</p>
-                                <a href="#" className="text-sm text-purple-600 hover:text-purple-800 underline">Ver no mapa</a>
+                                <p className="font-semibold text-gray-900">Igreja São Peregrino</p>
+                                <a href="https://www.google.com/maps/search/Av.+São+João,+2600+-+Jardim+das+Colinas,+São+José+dos+Campos" target="_blank" rel="noopener noreferrer" className="text-sm text-purple-600 hover:text-purple-800 underline">Ver no mapa</a>
                             </div>
                         </div>
                         <div className="flex items-start gap-4">

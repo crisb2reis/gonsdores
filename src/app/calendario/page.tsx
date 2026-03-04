@@ -11,7 +11,7 @@ const events = [
         title: "Oração Semanal",
         category: "Terço",
         time: "19h30 - 21h00",
-        place: "Capela Principal",
+        place: "Igreja São Peregrino",
         leader: "Equipe Dirigente",
     },
     {

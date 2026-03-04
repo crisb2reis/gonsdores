@@ -104,7 +104,7 @@ export default function Home() {
                 <div className="flex items-center gap-4 bg-purple-800/50 p-4 rounded-2xl border border-purple-700">
                   <Clock className="h-6 w-6 text-purple-300 shrink-0" />
                   <div>
-                    <h4 className="text-white font-medium">Toda Quarta-feira, 19h30</h4>
+                    <h4 className="text-white font-medium">Toda Terça-feira, 20h00</h4>
                     <p className="text-purple-200 text-sm">Após a Missa das 19h</p>
                   </div>
                 </div>
