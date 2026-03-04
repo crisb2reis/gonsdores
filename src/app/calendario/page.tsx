@@ -1,4 +1,7 @@
-import { ArrowRight, Clock, MapPin, User, ChevronRight } from "lucide-react";
+"use client";
+
+import { useState } from "react";
+import { ArrowRight, Clock, MapPin, User, ChevronRight, X } from "lucide-react";
 import Image from "next/image";
 import { getAssetPath } from "@/lib/utils";
 
@@ -6,7 +9,7 @@ import { getAssetPath } from "@/lib/utils";
 const events = [
     {
         id: 1,
-        day: "1031",
+        day: "03",
         month: "MAR",
         title: "Famílias que oram justas permanecem unidas",
         category: "Especial",
@@ -54,6 +57,8 @@ const preachers = [
 ];
 
 export default function Calendario() {
+    const [selectedImg, setSelectedImg] = useState<string | null>(null);
+
     return (
         <div className="flex flex-col min-h-screen bg-gray-50">
             <section className="bg-purple-900 py-20 text-center px-4 relative">
@@ -121,12 +126,15 @@ export default function Calendario() {
                     <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 space-y-6">
                         {preachers.map((preacher, idx) => (
                             <div key={idx} className="flex items-center gap-4">
-                                <div className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-purple-100">
+                                <div
+                                    className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-purple-100 cursor-pointer hover:border-purple-400 transition-all group"
+                                    onClick={() => setSelectedImg(preacher.img)}
+                                >
                                     <Image
                                         src={preacher.img}
                                         alt={preacher.name}
                                         fill
-                                        className="object-cover"
+                                        className="object-cover group-hover:scale-110 transition-transform"
                                     />
                                 </div>
                                 <div>
@@ -135,14 +143,47 @@ export default function Calendario() {
                                 </div>
                             </div>
                         ))}
-                        <hr className="border-gray-100" />
-                        <button className="w-full py-3 text-center text-sm font-semibold text-gray-600 hover:text-purple-700 transition-colors flex items-center justify-center gap-2">
-                            Ver lista completa <ArrowRight className="w-4 h-4" />
-                        </button>
                     </div>
                 </div>
 
             </section>
+
+            {/* Lightbox / Modal */}
+            {selectedImg && (
+                <div
+                    className="fixed inset-0 z-[60] bg-black/95 backdrop-blur-sm flex items-center justify-center p-4 md:p-10 animate-fade-in"
+                    onClick={() => setSelectedImg(null)}
+                >
+                    <button
+                        className="absolute top-6 right-6 text-white/70 hover:text-white p-2 hover:bg-white/10 rounded-full transition-all"
+                        onClick={() => setSelectedImg(null)}
+                    >
+                        <X className="w-8 h-8" />
+                    </button>
+
+                    <div
+                        className="relative max-w-full max-h-full flex flex-col items-center"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <img
+                            src={selectedImg}
+                            alt="Pregador"
+                            className="max-h-[85vh] w-auto object-contain rounded-lg shadow-2xl"
+                        />
+                    </div>
+                </div>
+            )}
+
+            <style dangerouslySetInnerHTML={{
+                __html: `
+                @keyframes fadeIn {
+                    from { opacity: 0; }
+                    to { opacity: 1; }
+                }
+                .animate-fade-in {
+                    animation: fadeIn 0.3s ease-out forwards;
+                }
+            `}} />
         </div>
     );
 }
