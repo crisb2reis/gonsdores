@@ -1,10 +1,57 @@
 "use client";
 
 import { useState } from "react";
-import { HeartHandshake, CheckCircle2 } from "lucide-react";
+import { HeartHandshake, CheckCircle2, Send, Loader2 } from "lucide-react";
+import { supabase } from "@/lib/supabase";
 
 export default function PedidosOracao() {
+    const [nome, setNome] = useState("");
+    const [email, setEmail] = useState("");
     const [requestText, setRequestText] = useState("");
+    const [visibility, setVisibility] = useState("private");
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isSuccess, setIsSuccess] = useState(false);
+    const [error, setError] = useState("");
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setError("");
+
+        if (!requestText.trim()) {
+            setError("Por favor, escreva seu pedido de oração.");
+            return;
+        }
+
+        setIsSubmitting(true);
+
+        try {
+            const { error: supabaseError } = await supabase
+                .from("prayer_requests")
+                .insert([{
+                    nome: nome.trim() || null,
+                    email: email.trim() || null,
+                    pedido: requestText.trim(),
+                    visibilidade: visibility,
+                    status: "pending"
+                }]);
+
+            if (supabaseError) throw supabaseError;
+
+            setIsSuccess(true);
+            setNome("");
+            setEmail("");
+            setRequestText("");
+            setVisibility("private");
+
+            // Reset success message after 5 seconds
+            setTimeout(() => setIsSuccess(false), 5000);
+        } catch (err) {
+            console.error("Erro ao enviar pedido:", err);
+            setError("Ocorreu um erro ao enviar seu pedido. Tente novamente.");
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
 
     return (
         <div className="flex flex-col min-h-screen bg-gray-50">
@@ -22,13 +69,27 @@ export default function PedidosOracao() {
             <section className="py-16 max-w-4xl mx-auto px-4 sm:px-6 w-full -mt-10 relative z-10 space-y-16">
                 {/* Form Section */}
                 <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-8 md:p-12">
-                    <form className="space-y-6">
+
+                    {/* Success feedback */}
+                    {isSuccess && (
+                        <div className="mb-8 flex items-start gap-4 bg-green-50 border border-green-200 text-green-800 p-5 rounded-2xl">
+                            <CheckCircle2 className="w-6 h-6 text-green-600 shrink-0 mt-0.5" />
+                            <div>
+                                <p className="font-bold">Pedido enviado com sucesso!</p>
+                                <p className="text-sm mt-1">Recebemos sua intenção e nossa equipe irá rezar por você. Que Nossa Senhora das Dores interceda pelo seu pedido. 🙏</p>
+                            </div>
+                        </div>
+                    )}
+
+                    <form className="space-y-6" onSubmit={handleSubmit}>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div className="space-y-2">
                                 <label className="text-sm font-semibold text-gray-700" htmlFor="nome">Nome completo (Opcional)</label>
                                 <input
                                     type="text"
                                     id="nome"
+                                    value={nome}
+                                    onChange={(e) => setNome(e.target.value)}
                                     className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
                                     placeholder="Seu nome"
                                 />
@@ -38,6 +99,8 @@ export default function PedidosOracao() {
                                 <input
                                     type="email"
                                     id="email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
                                     className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
                                     placeholder="seu@email.com"
                                 />
@@ -65,25 +128,41 @@ export default function PedidosOracao() {
                             <label className="text-sm font-semibold text-gray-700">Visibilidade do Pedido</label>
                             <div className="flex flex-col sm:flex-row gap-4">
                                 <label className="flex items-center gap-3 cursor-pointer">
-                                    <input type="radio" name="visibility" value="private" className="w-4 h-4 text-purple-600 focus:ring-purple-500 border-gray-300" defaultChecked />
+                                    <input type="radio" name="visibility" value="private" className="w-4 h-4 text-purple-600 focus:ring-purple-500 border-gray-300" checked={visibility === "private"} onChange={() => setVisibility("private")} />
                                     <span className="text-sm text-gray-600">Privado (Apenas equipe)</span>
                                 </label>
                                 <label className="flex items-center gap-3 cursor-pointer">
-                                    <input type="radio" name="visibility" value="public-anon" className="w-4 h-4 text-purple-600 focus:ring-purple-500 border-gray-300" />
+                                    <input type="radio" name="visibility" value="public-anon" className="w-4 h-4 text-purple-600 focus:ring-purple-500 border-gray-300" checked={visibility === "public-anon"} onChange={() => setVisibility("public-anon")} />
                                     <span className="text-sm text-gray-600">Público e Anônimo</span>
                                 </label>
                                 <label className="flex items-center gap-3 cursor-pointer">
-                                    <input type="radio" name="visibility" value="public-named" className="w-4 h-4 text-purple-600 focus:ring-purple-500 border-gray-300" />
+                                    <input type="radio" name="visibility" value="public-named" className="w-4 h-4 text-purple-600 focus:ring-purple-500 border-gray-300" checked={visibility === "public-named"} onChange={() => setVisibility("public-named")} />
                                     <span className="text-sm text-gray-600">Público com Nome</span>
                                 </label>
                             </div>
                         </div>
 
+                        {/* Error message */}
+                        {error && (
+                            <p className="text-red-600 text-sm font-medium bg-red-50 border border-red-200 px-4 py-3 rounded-xl">{error}</p>
+                        )}
+
                         <button
-                            type="button"
-                            className="w-full py-4 bg-purple-700 hover:bg-purple-800 text-white rounded-xl font-bold shadow-md hover:shadow-lg transition-all"
+                            type="submit"
+                            disabled={isSubmitting}
+                            className="w-full py-4 bg-purple-700 hover:bg-purple-800 disabled:bg-purple-400 text-white rounded-xl font-bold shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2"
                         >
-                            Enviar Pedido de Oração
+                            {isSubmitting ? (
+                                <>
+                                    <Loader2 className="w-5 h-5 animate-spin" />
+                                    Enviando...
+                                </>
+                            ) : (
+                                <>
+                                    <Send className="w-5 h-5" />
+                                    Enviar Pedido de Oração
+                                </>
+                            )}
                         </button>
                     </form>
                 </div>
