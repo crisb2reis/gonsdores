@@ -53,14 +53,22 @@ export default function AdminTestemunhos() {
     return (
         <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-5xl mx-auto">
-                <div className="flex items-center gap-4 mb-8">
-                    <div className="p-3 bg-purple-700 rounded-2xl text-white">
-                        <Shield className="w-8 h-8" />
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
+                    <div className="flex items-center gap-4">
+                        <div className="p-3 bg-purple-700 rounded-2xl text-white">
+                            <Shield className="w-8 h-8" />
+                        </div>
+                        <div>
+                            <h1 className="text-3xl font-bold text-gray-900">Painel de Validação</h1>
+                            <p className="text-gray-600">Gerencie os testemunhos enviados pela comunidade</p>
+                        </div>
                     </div>
-                    <div>
-                        <h1 className="text-3xl font-bold text-gray-900">Painel de Validação</h1>
-                        <p className="text-gray-600">Gerencie os testemunhos enviados pela comunidade</p>
-                    </div>
+                    <a
+                        href="/admin/pedidos"
+                        className="text-sm font-semibold text-purple-700 hover:text-purple-900 bg-white border border-purple-200 px-4 py-2 rounded-xl transition-colors"
+                    >
+                        Ver Pedidos de Oração →
+                    </a>
                 </div>
 
                 {loading ? (
