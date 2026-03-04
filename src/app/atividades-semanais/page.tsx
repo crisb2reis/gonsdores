@@ -105,7 +105,7 @@ export default function AtividadesSemanais() {
                             <Instagram className="w-6 h-6 text-pink-600 mt-1" />
                             <div>
                                 <p className="text-sm text-gray-500 font-medium">Canal</p>
-                                <a href="#" className="font-semibold text-pink-600 hover:text-pink-700 underline">@grupodeoracaonsdasdores</a>
+                                <a href="https://www.instagram.com/gonsdores" target="_blank" rel="noopener noreferrer" className="font-semibold text-pink-600 hover:text-pink-700 underline">@gonsdores</a>
                             </div>
                         </div>
                     </div>
