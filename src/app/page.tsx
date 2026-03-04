@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Calendar, Clock, Heart, MessageCircle, HeartHandshake, MapPin } from "lucide-react";
+import { getAssetPath } from "@/lib/utils";
 
 export default function Home() {
   return (
@@ -9,7 +10,7 @@ export default function Home() {
       <section className="relative w-full h-[80vh] min-h-[600px] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image
-            src="/hero-church.png"
+            src={getAssetPath("/hero-church.png")}
             alt="Interior da Igreja"
             fill
             className="object-cover object-center"
@@ -86,7 +87,7 @@ export default function Home() {
           <div className="bg-purple-900 rounded-[2.5rem] overflow-hidden flex flex-col lg:flex-row shadow-2xl">
             <div className="lg:w-1/2 relative min-h-[400px]">
               <Image
-                src="/terco.png"
+                src={getAssetPath("/terco.png")}
                 alt="Pessoas rezando o terço"
                 fill
                 className="object-cover"

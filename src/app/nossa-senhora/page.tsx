@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { ChevronDown, Cross, Heart, Shield } from "lucide-react";
+import { getAssetPath } from "@/lib/utils";
 
 const seteDores = [
     {
@@ -46,7 +47,7 @@ export default function NossaSenhora() {
             <section className="relative w-full h-[70vh] flex items-center justify-center overflow-hidden">
                 <div className="absolute inset-0 z-0">
                     <Image
-                        src="/nossa-senhora-hero.png"
+                        src={getAssetPath("/nossa-senhora-hero.png")}
                         alt="Nossa Senhora das Dores"
                         fill
                         className="object-cover object-center"

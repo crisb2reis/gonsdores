@@ -1,5 +1,6 @@
 import { ArrowRight, Clock, MapPin, User, ChevronRight } from "lucide-react";
 import Image from "next/image";
+import { getAssetPath } from "@/lib/utils";
 
 // Dummy data for calendar
 const events = [
@@ -36,9 +37,9 @@ const events = [
 ];
 
 const preachers = [
-    { name: "Pe. Marcos", role: "Pároco", img: "/preacher-1.png" },
-    { name: "Diácono Silva", role: "Diácono", img: "/preacher-2.png" },
-    { name: "Ana & Carlos", role: "Coordenadores", img: "/preacher-3.png" },
+    { name: "Pe. Marcos", role: "Pároco", img: getAssetPath("/preacher-1.png") },
+    { name: "Diácono Silva", role: "Diácono", img: getAssetPath("/preacher-2.png") },
+    { name: "Ana & Carlos", role: "Coordenadores", img: getAssetPath("/preacher-3.png") },
 ];
 
 export default function Calendario() {
