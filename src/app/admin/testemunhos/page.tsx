@@ -108,7 +108,7 @@ export default function AdminTestemunhos() {
                                             {new Date(t.created_at).toLocaleDateString('pt-BR')}
                                         </span>
                                     </div>
-                                    <p className="text-gray-700 leading-relaxed italic whitespace-pre-wrap">
+                                    <p className="text-gray-700 leading-relaxed italic whitespace-pre-wrap break-words">
                                         "{t.testemunho}"
                                     </p>
                                 </div>

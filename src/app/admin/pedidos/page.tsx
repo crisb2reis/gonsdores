@@ -172,7 +172,7 @@ export default function AdminPedidos() {
                                             </span>
                                         </div>
 
-                                        <p className="text-gray-800 leading-relaxed whitespace-pre-wrap">
+                                        <p className="text-gray-800 leading-relaxed whitespace-pre-wrap break-words">
                                             "{r.pedido}"
                                         </p>
 

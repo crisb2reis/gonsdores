@@ -183,7 +183,7 @@ export default function PedidosOracao() {
                                     </div>
                                     <span className="text-xs text-gray-400 font-medium">Há 2 horas</span>
                                 </div>
-                                <p className="text-gray-600 text-sm leading-relaxed whitespace-pre-wrap">
+                                <p className="text-gray-600 text-sm leading-relaxed whitespace-pre-wrap break-words">
                                     "Peço oração pela restauração da saúde do meu marido que se encontra internado, e por forças para toda a nossa família neste momento difícil."
                                 </p>
                                 <button className="mt-4 text-sm font-semibold text-purple-600 hover:text-purple-800 transition-colors">
