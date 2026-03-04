@@ -56,7 +56,8 @@ export default function AdminGaleria() {
             .insert([{ url, caption, event_date: eventDate }]);
 
         if (error) {
-            alert("Erro ao adicionar foto: " + error.message);
+            console.error("Erro detalhado do Supabase:", error);
+            alert(`Erro ao adicionar foto: ${error.message}${error.code ? ` (código: ${error.code})` : ''}`);
         } else {
             setIsAdding(false);
             setUrl("");
