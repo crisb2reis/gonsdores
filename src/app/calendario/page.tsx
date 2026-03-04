@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowRight, Clock, MapPin, User, ChevronRight, X } from "lucide-react";
+import { Clock, MapPin, User, X } from "lucide-react";
 import Image from "next/image";
 import { getAssetPath } from "@/lib/utils";
 
@@ -110,11 +110,6 @@ export default function Calendario() {
                                         </div>
                                     </div>
                                 </div>
-
-                                {/* Action arrow */}
-                                <button className="hidden sm:flex shrink-0 w-12 h-12 rounded-full border border-gray-200 items-center justify-center text-gray-400 group-hover:bg-purple-50 group-hover:text-purple-600 group-hover:border-purple-200 transition-all">
-                                    <ChevronRight className="w-6 h-6" />
-                                </button>
                             </div>
                         ))}
                     </div>
@@ -145,7 +140,6 @@ export default function Calendario() {
                         ))}
                     </div>
                 </div>
-
             </section>
 
             {/* Lightbox / Modal */}
