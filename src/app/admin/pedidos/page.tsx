@@ -91,12 +91,20 @@ export default function AdminPedidos() {
                             <p className="text-gray-600">Gerencie os pedidos enviados pela comunidade</p>
                         </div>
                     </div>
-                    <Link
-                        href="/admin/testemunhos"
-                        className="text-sm font-semibold text-purple-700 hover:text-purple-900 bg-white border border-purple-200 px-4 py-2 rounded-xl transition-colors"
-                    >
-                        Ver Testemunhos &rarr;
-                    </Link>
+                    <div className="flex gap-2">
+                        <Link
+                            href="/admin/testemunhos"
+                            className="text-sm font-semibold text-purple-700 hover:text-purple-900 bg-white border border-purple-200 px-4 py-2 rounded-xl transition-colors"
+                        >
+                            Testemunhos &rarr;
+                        </Link>
+                        <Link
+                            href="/admin/galeria"
+                            className="text-sm font-semibold text-purple-700 hover:text-purple-900 bg-white border border-purple-200 px-4 py-2 rounded-xl transition-colors"
+                        >
+                            Galeria &rarr;
+                        </Link>
+                    </div>
                 </div>
 
                 {/* Stats + Filters */}

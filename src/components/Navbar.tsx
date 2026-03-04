@@ -24,6 +24,7 @@ export default function Navbar() {
             <Link href="/calendario" className="text-gray-700 hover:text-purple-800 font-medium transition-colors text-sm lg:text-base">Calendário</Link>
             <Link href="/testemunhos" className="text-gray-700 hover:text-purple-800 font-medium transition-colors text-sm lg:text-base">Testemunhos</Link>
             <Link href="/pedidos-oracao" className="text-gray-700 hover:text-purple-800 font-medium transition-colors text-sm lg:text-base">Pedidos</Link>
+            <Link href="/galeria" className="text-gray-700 hover:text-purple-800 font-medium transition-colors text-sm lg:text-base">Galeria</Link>
           </div>
           <div className="flex items-center md:hidden">
             <button className="text-gray-600 hover:text-purple-800 focus:outline-none">

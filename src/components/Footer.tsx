@@ -45,6 +45,7 @@ export default function Footer() {
                         <ul className="space-y-4">
                             <li><Link href="/pedidos-oracao" className="text-gray-600 hover:text-purple-800 text-sm">Pedidos de Oração</Link></li>
                             <li><Link href="/testemunhos" className="text-gray-600 hover:text-purple-800 text-sm">Testemunhos</Link></li>
+                            <li><Link href="/galeria" className="text-gray-600 hover:text-purple-800 text-sm">Galeria de Fotos</Link></li>
                             <li><Link href="/contato" className="text-gray-600 hover:text-purple-800 text-sm">Contato</Link></li>
                         </ul>
                     </div>
