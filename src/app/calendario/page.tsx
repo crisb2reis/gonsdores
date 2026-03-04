@@ -6,40 +6,41 @@ import { getAssetPath } from "@/lib/utils";
 const events = [
     {
         id: 1,
-        day: "15",
+        day: "11",
         month: "MAR",
-        title: "Oração Semanal",
-        category: "Terço",
+        title: "Mês da Família",
+        category: "Especial",
         time: "19h30 - 21h00",
         place: "Igreja São Peregrino",
         leader: "Equipe Dirigente",
     },
     {
         id: 2,
-        day: "22",
+        day: "18",
         month: "MAR",
-        title: "Missa de Cura e Libertação",
-        category: "Missa",
-        time: "19h30 - 21h30",
-        place: "Igreja Matriz",
-        leader: "Pe. João",
+        title: "Seminário da Palavra",
+        category: "Formação",
+        time: "19h30 - 21h00",
+        place: "Salão Paroquial",
+        leader: "Cesar Flores",
     },
     {
         id: 3,
-        day: "05",
-        month: "ABR",
-        title: "Seminário de Vida no Espírito S.",
-        category: "Seminário",
-        time: "08h00 - 17h00",
-        place: "Salão Paroquial",
-        leader: "Pregador Convidado",
+        day: "25",
+        month: "MAR",
+        title: "Noite de Louvor",
+        category: "Louvor",
+        time: "19h30 - 21h00",
+        place: "Igreja São Peregrino",
+        leader: "Flaviano",
     }
 ];
 
 const preachers = [
-    { name: "Pe. Marcos", role: "Pároco", img: getAssetPath("/preacher-1.png") },
-    { name: "Diácono Silva", role: "Diácono", img: getAssetPath("/preacher-2.png") },
-    { name: "Ana & Carlos", role: "Coordenadores", img: getAssetPath("/preacher-3.png") },
+    { name: "Flaviano", role: "Pregador", img: getAssetPath("/flaviano.jpeg") },
+    { name: "Cesar Flores", role: "Pregador", img: getAssetPath("/cesar_flores.jpeg") },
+    { name: "Denilson", role: "Pregador", img: getAssetPath("/denilson.jpeg") },
+    { name: "Sebastião", role: "Pregador", img: getAssetPath("/sebastiao.jpeg") },
 ];
 
 export default function Calendario() {
