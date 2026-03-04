@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { HeartHandshake, CheckCircle2, Send, Loader2 } from "lucide-react";
+import { motion } from "framer-motion";
 import { supabase } from "@/lib/supabase";
 
 export default function PedidosOracao() {
@@ -171,26 +172,52 @@ export default function PedidosOracao() {
                 </div>
 
                 {/* Community Feed / Intentions */}
-                <div className="space-y-6">
+                <div className="space-y-6 overflow-hidden">
                     <h2 className="font-serif text-3xl font-bold text-gray-900 border-b border-gray-200 pb-2">Pedidos da Comunidade</h2>
-                    <div className="flex overflow-x-auto pb-6 gap-6 snap-x hide-scroll">
-                        {[1, 2, 3, 4].map((item) => (
-                            <div key={item} className="w-[280px] sm:w-[350px] min-w-0 bg-white p-6 rounded-2xl shadow-sm border border-gray-100 shrink-0 snap-start">
-                                <div className="flex items-center justify-between mb-4">
-                                    <div className="flex items-center gap-2">
-                                        <HeartHandshake className="w-5 h-5 text-purple-500" />
-                                        <span className="font-semibold text-gray-900 text-sm">{item % 2 === 0 ? "Anônimo" : "Maria José"}</span>
-                                    </div>
-                                    <span className="text-xs text-gray-400 font-medium">Há 2 horas</span>
+
+                    <div className="relative group">
+                        <motion.div
+                            className="flex gap-6 py-4"
+                            animate={{
+                                x: [0, -1504], // Approximate width of 4 cards + gaps
+                            }}
+                            transition={{
+                                x: {
+                                    repeat: Infinity,
+                                    repeatType: "loop",
+                                    duration: 30,
+                                    ease: "linear",
+                                },
+                            }}
+                            style={{ width: "fit-content" }}
+                        >
+                            {/* Duplicate the list to create infinite effect */}
+                            {[...Array(2)].map((_, listIdx) => (
+                                <div key={listIdx} className="flex gap-6">
+                                    {[1, 2, 3, 4].map((item) => (
+                                        <div key={item} className="w-[280px] sm:w-[350px] min-w-0 bg-white p-6 rounded-2xl shadow-sm border border-gray-100 shrink-0">
+                                            <div className="flex items-center justify-between mb-4">
+                                                <div className="flex items-center gap-2">
+                                                    <HeartHandshake className="w-5 h-5 text-purple-500" />
+                                                    <span className="font-semibold text-gray-900 text-sm">{item % 2 === 0 ? "Anônimo" : "Maria José"}</span>
+                                                </div>
+                                                <span className="text-xs text-gray-400 font-medium">Há 2 horas</span>
+                                            </div>
+                                            <p className="text-gray-600 text-sm leading-relaxed whitespace-pre-wrap break-words">
+                                                "Peço oração pela restauração da saúde do meu marido que se encontra internado, e por forças para toda a nossa família neste momento difícil."
+                                            </p>
+                                            <button className="mt-4 text-sm font-semibold text-purple-600 hover:text-purple-800 transition-colors">
+                                                Rezar por esta intenção
+                                            </button>
+                                        </div>
+                                    ))}
                                 </div>
-                                <p className="text-gray-600 text-sm leading-relaxed whitespace-pre-wrap break-words">
-                                    "Peço oração pela restauração da saúde do meu marido que se encontra internado, e por forças para toda a nossa família neste momento difícil."
-                                </p>
-                                <button className="mt-4 text-sm font-semibold text-purple-600 hover:text-purple-800 transition-colors">
-                                    Rezar por esta intenção
-                                </button>
-                            </div>
-                        ))}
+                            ))}
+                        </motion.div>
+
+                        {/* Gradient Fades for smoother edges */}
+                        <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-gray-50 to-transparent z-10 pointer-events-none" />
+                        <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-gray-50 to-transparent z-10 pointer-events-none" />
                     </div>
                 </div>
 
