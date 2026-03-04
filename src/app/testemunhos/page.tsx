@@ -93,7 +93,7 @@ export default function Testemunhos() {
                                 </div>
                             </div>
 
-                            <p className="text-gray-600 italic leading-relaxed mb-8 flex-grow">
+                            <p className="text-gray-600 italic leading-relaxed mb-8 flex-grow whitespace-pre-wrap">
                                 "{t.testemunho}"
                             </p>
 
