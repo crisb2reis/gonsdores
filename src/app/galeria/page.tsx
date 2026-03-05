@@ -129,7 +129,13 @@ export default function Galeria() {
                             <div className="w-full aspect-video rounded-lg overflow-hidden shadow-2xl bg-black">
                                 {selectedItem.url.includes('youtube.com') || selectedItem.url.includes('youtu.be') ? (
                                     <iframe
-                                        src={selectedItem.url.replace('watch?v=', 'embed/').split('&')[0]}
+                                        src={
+                                            selectedItem.url.includes('/shorts/')
+                                                ? selectedItem.url.replace('/shorts/', '/embed/').split('?')[0]
+                                                : selectedItem.url.includes('watch?v=')
+                                                    ? selectedItem.url.replace('watch?v=', 'embed/').split('&')[0]
+                                                    : selectedItem.url // fallback
+                                        }
                                         className="w-full h-full"
                                         title={selectedItem.caption}
                                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
