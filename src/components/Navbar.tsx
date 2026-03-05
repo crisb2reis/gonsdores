@@ -1,7 +1,25 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
-import { Menu, Heart } from "lucide-react";
+import { Menu, Heart, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Navbar() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleMenu = () => setIsOpen(!isOpen);
+
+  const navLinks = [
+    { href: "/", label: "Início" },
+    { href: "/nossa-senhora", label: "Nossa Senhora" },
+    { href: "/atividades-semanais", label: "Atividades" },
+    { href: "/calendario", label: "Calendário" },
+    { href: "/testemunhos", label: "Testemunhos" },
+    { href: "/pedidos-oracao", label: "Pedidos" },
+    { href: "/galeria", label: "Galeria" },
+  ];
+
   return (
     <nav className="sticky top-0 z-50 w-full bg-white/90 backdrop-blur-md shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -17,22 +35,59 @@ export default function Navbar() {
               </div>
             </Link>
           </div>
+
+          {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-6 lg:space-x-8">
-            <Link href="/" className="text-gray-700 hover:text-purple-800 font-medium transition-colors">Início</Link>
-            <Link href="/nossa-senhora" className="text-gray-700 hover:text-purple-800 font-medium transition-colors text-sm lg:text-base">Nossa Senhora</Link>
-            <Link href="/atividades-semanais" className="text-gray-700 hover:text-purple-800 font-medium transition-colors text-sm lg:text-base">Atividades</Link>
-            <Link href="/calendario" className="text-gray-700 hover:text-purple-800 font-medium transition-colors text-sm lg:text-base">Calendário</Link>
-            <Link href="/testemunhos" className="text-gray-700 hover:text-purple-800 font-medium transition-colors text-sm lg:text-base">Testemunhos</Link>
-            <Link href="/pedidos-oracao" className="text-gray-700 hover:text-purple-800 font-medium transition-colors text-sm lg:text-base">Pedidos</Link>
-            <Link href="/galeria" className="text-gray-700 hover:text-purple-800 font-medium transition-colors text-sm lg:text-base">Galeria</Link>
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="text-gray-700 hover:text-purple-800 font-medium transition-colors text-sm lg:text-base"
+              >
+                {link.label}
+              </Link>
+            ))}
           </div>
+
+          {/* Mobile Menu Button */}
           <div className="flex items-center md:hidden">
-            <button className="text-gray-600 hover:text-purple-800 focus:outline-none">
-              <Menu className="h-6 w-6" />
+            <button
+              onClick={toggleMenu}
+              className="text-gray-600 hover:text-purple-800 focus:outline-none p-2"
+              aria-label="Toggle menu"
+            >
+              {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
           </div>
         </div>
       </div>
+
+      {/* Mobile Navigation */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="md:hidden bg-white border-t border-gray-100 overflow-hidden"
+          >
+            <div className="px-4 pt-2 pb-6 space-y-1">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setIsOpen(false)}
+                  className="block px-3 py-3 text-base font-medium text-gray-700 hover:text-purple-800 hover:bg-purple-50 rounded-lg transition-colors"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 }
+
