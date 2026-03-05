@@ -60,9 +60,9 @@ const events: CalendarEvent[] = [
 ];
 
 const preachers = [
-    { name: "Flaviano", role: "Pregador", img: getAssetPath("/denilson.jpeg") },
-    { name: "Cesar Flores", role: "Pregador", img: getAssetPath("/flaviano.jpeg") },
-    { name: "Denilson", role: "Pregador", img: getAssetPath("/cesar_flores.jpeg") },
+    { name: "Denilson", role: "Pregador", img: getAssetPath("/denilson.jpeg") },
+    { name: "Flaviano", role: "Pregador", img: getAssetPath("/flaviano.jpeg") },
+    { name: "Cesar Flores", role: "Pregador", img: getAssetPath("/cesar_flores.jpeg") },
     { name: "Sebastião", role: "Pregador", img: getAssetPath("/sebastiao.jpeg") },
 ];
 
