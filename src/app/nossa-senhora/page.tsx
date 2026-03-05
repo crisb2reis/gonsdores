@@ -42,7 +42,7 @@ const seteDores = [
 
 export default function NossaSenhora() {
     return (
-        <div className="flex flex-col min-h-screen bg-white">
+        <div className="flex flex-col min-h-screen bg-background">
             {/* Hero Section */}
             <section className="relative w-full h-[70vh] flex items-center justify-center overflow-hidden">
                 <div className="absolute inset-0 z-0">
@@ -74,7 +74,7 @@ export default function NossaSenhora() {
             </section>
 
             {/* Intro Context Section */}
-            <section className="py-20 bg-white">
+            <section className="py-20 bg-background text-center md:text-left">
                 <div className="max-w-4xl mx-auto px-4 text-center">
                     <span className="text-purple-600 font-bold tracking-widest uppercase text-sm mb-4 block">Mater Dolorosa</span>
                     <h2 className="font-serif text-3xl md:text-4xl font-bold text-purple-900 mb-8">O Significado da Devoção</h2>
@@ -90,7 +90,7 @@ export default function NossaSenhora() {
             </section>
 
             {/* Sete Dores Section */}
-            <section id="sete-dores" className="py-20 bg-purple-50">
+            <section id="sete-dores" className="py-20 bg-background-soft">
                 <div className="max-w-5xl mx-auto px-4">
                     <div className="text-center mb-16">
                         <h2 className="font-serif text-3xl md:text-4xl font-bold text-purple-900 mb-4">As Sete Dores de Maria</h2>
@@ -123,7 +123,7 @@ export default function NossaSenhora() {
             </section>
 
             {/* Terço das Dores Section */}
-            <section id="oracao" className="py-20 bg-white">
+            <section id="oracao" className="py-20 bg-background">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="bg-purple-900 rounded-[2.5rem] p-10 md:p-20 text-white relative overflow-hidden">
                         <div className="absolute top-0 right-0 w-96 h-96 bg-purple-800 rounded-full -mr-20 -mt-20 blur-3xl opacity-50"></div>

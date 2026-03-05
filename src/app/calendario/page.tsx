@@ -70,7 +70,7 @@ export default function Calendario() {
     const [selectedImg, setSelectedImg] = useState<string | null>(null);
 
     return (
-        <div className="flex flex-col min-h-screen bg-gray-50">
+        <div className="flex flex-col min-h-screen bg-background">
             <section className="bg-purple-900 py-20 text-center px-4 relative">
                 <div className="absolute inset-0 bg-black/20 z-0"></div>
                 <div className="relative z-10">

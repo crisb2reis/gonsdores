@@ -68,7 +68,7 @@ export default function Testemunhos() {
     const allTestimonials = [...supabaseTestimonials, ...hardcodedTestimonials];
 
     return (
-        <div className="flex flex-col min-h-screen bg-gray-50">
+        <div className="flex flex-col min-h-screen bg-background">
             {/* Hero Section */}
             <section className="bg-purple-900 py-24 text-center px-4 relative">
                 <div className="max-w-4xl mx-auto relative z-10">
@@ -118,7 +118,7 @@ export default function Testemunhos() {
             </section>
 
             {/* Share Section */}
-            <section className="py-24 bg-white text-center">
+            <section className="py-24 bg-background text-center">
                 <div className="max-w-3xl mx-auto px-4 flex flex-col items-center">
                     <div className="w-20 h-20 bg-purple-900 rounded-full flex items-center justify-center mb-8 shadow-xl">
                         <Heart className="w-10 h-10 text-white fill-current" />

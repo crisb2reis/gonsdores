@@ -2,7 +2,7 @@ import { Mail, MapPin, Phone, MessageSquare } from "lucide-react";
 
 export default function Contato() {
     return (
-        <div className="flex flex-col min-h-screen bg-gray-50">
+        <div className="flex flex-col min-h-screen bg-background">
             <section className="bg-purple-900 py-20 text-center px-4">
                 <h1 className="font-serif text-4xl md:text-5xl font-bold text-white mb-4">Contato</h1>
                 <p className="text-purple-100 text-lg max-w-2xl mx-auto">
@@ -63,15 +63,15 @@ export default function Contato() {
                     <form className="space-y-4">
                         <div className="space-y-1 text-sm font-semibold text-gray-700">
                             <label>Nome Completo</label>
-                            <input type="text" className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Seu nome" />
+                            <input type="text" className="w-full px-4 py-3 bg-background-soft border border-gray-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Seu nome" />
                         </div>
                         <div className="space-y-1 text-sm font-semibold text-gray-700">
                             <label>E-mail</label>
-                            <input type="email" className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="seu@email.com" />
+                            <input type="email" className="w-full px-4 py-3 bg-background-soft border border-gray-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="seu@email.com" />
                         </div>
                         <div className="space-y-1 text-sm font-semibold text-gray-700">
                             <label>Mensagem</label>
-                            <textarea rows={5} className="w-full px-4 py-3 flex-grow bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none" placeholder="Escreva sua dúvida, sugestão ou comentário..."></textarea>
+                            <textarea rows={5} className="w-full px-4 py-3 flex-grow bg-background-soft border border-gray-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none" placeholder="Escreva sua dúvida, sugestão ou comentário..."></textarea>
                         </div>
                         <div className="pt-2">
                             <button type="button" className="w-full bg-purple-700 hover:bg-purple-800 text-white font-bold py-4 rounded-xl shadow-md transition-all">Enviar Mensagem</button>

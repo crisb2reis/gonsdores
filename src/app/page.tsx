@@ -27,7 +27,7 @@ export default function Home() {
             Paróquia São Peregrino – São José dos Campos – SP
           </p>
           <p className="text-white/80 max-w-2xl mx-auto text-base md:text-lg mb-10">
-            Um lugar de encontro espiritual, esperança e renovação da fé através da interseção de Maria.
+            Um lugar de encontro espiritual, esperança e renovação da fé através da interseção de Nossa Senhora das Dores.
           </p>
           <Link
             href="/pedidos-oracao"
@@ -39,7 +39,7 @@ export default function Home() {
       </section>
 
       {/* Navigation Grid Section */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-background-soft">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="font-serif text-3xl md:text-4xl font-bold text-purple-900 mb-4">Nossas Atividades</h2>
@@ -82,7 +82,7 @@ export default function Home() {
       </section>
 
       {/* Weekly Highlight Section - Terço */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-purple-900 rounded-[2.5rem] overflow-hidden flex flex-col lg:flex-row shadow-2xl">
             <div className="lg:w-1/2 relative min-h-[400px]">
@@ -97,7 +97,7 @@ export default function Home() {
             <div className="lg:w-1/2 p-10 md:p-16 flex flex-col justify-center bg-purple-900">
               <h2 className="font-serif text-3xl md:text-4xl font-bold text-white mb-6">Santo Terço</h2>
               <p className="text-purple-100 mb-8 max-w-lg leading-relaxed">
-                Rezar o Terço é contemplar com Maria o rosto de Cristo. Junte-se a nós semanalmente para este momento de profunda conexão espiritual.
+                Rezar o Terço é contemplar com Nossa Senhora das Dores o rosto de Cristo. Junte-se a nós semanalmente para este momento de profunda conexão espiritual.
               </p>
 
               <div className="space-y-6 mb-10">
@@ -132,13 +132,13 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 bg-purple-50 text-center relative overflow-hidden">
+      <section className="py-24 bg-background-soft text-center relative overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-purple-200 rounded-full blur-3xl opacity-50 z-0" />
         <div className="relative z-10 max-w-3xl mx-auto px-4">
           <Heart className="h-16 w-16 text-purple-600 mx-auto mb-6" />
           <h2 className="font-serif text-4xl py-2 font-bold text-purple-900 mb-6">Venha Rezar Conosco</h2>
           <p className="text-lg text-gray-600 mb-10">
-            A oração em comunidade nos fortalece. Não deixe de colocar suas intenções nas mãos de Maria.
+            A oração em comunidade nos fortalece. Não deixe de colocar suas intenções nas mãos de Nossa Senhora das Dores.
           </p>
           <Link
             href="/pedidos-oracao"

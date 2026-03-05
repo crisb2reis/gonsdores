@@ -2,7 +2,7 @@ import { Calendar, Clock, MapPin, Users, Instagram, ListChecks } from "lucide-re
 
 export default function AtividadesSemanais() {
     return (
-        <div className="flex flex-col min-h-screen bg-gray-50">
+        <div className="flex flex-col min-h-screen bg-background text-foreground">
             {/* Hero Section */}
             <section className="bg-purple-900 py-20 text-center px-4">
                 <h1 className="font-serif text-4xl md:text-5xl font-bold text-white mb-4">Oração Semanal</h1>
@@ -58,7 +58,7 @@ export default function AtividadesSemanais() {
                         </div>
                     </div>
 
-                    <div className="bg-gray-50 p-6 rounded-2xl border border-gray-100">
+                    <div className="bg-background-soft p-6 rounded-2xl border border-gray-100">
                         <h3 className="font-semibold text-gray-900 mb-6 flex items-center gap-2">
                             Estrutura da Oração
                         </h3>

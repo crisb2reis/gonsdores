@@ -64,7 +64,7 @@ export default function Galeria() {
     };
 
     return (
-        <div className="flex flex-col min-h-screen bg-gray-50">
+        <div className="flex flex-col min-h-screen bg-background">
             {/* Header / Hero */}
             <section className="bg-purple-900 py-20 text-center px-4">
                 <div className="w-20 h-20 bg-purple-100 rounded-full flex items-center justify-center mb-6 mx-auto">

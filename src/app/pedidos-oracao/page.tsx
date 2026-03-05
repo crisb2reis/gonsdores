@@ -58,7 +58,7 @@ export default function PedidosOracao() {
     };
 
     return (
-        <div className="flex flex-col min-h-screen bg-gray-50">
+        <div className="flex flex-col min-h-screen bg-background">
             {/* Hero Section */}
             <section className="bg-purple-900 py-20 text-center px-4 relative flex flex-col items-center">
                 <div className="w-20 h-20 bg-purple-100 rounded-full flex items-center justify-center mb-6">
@@ -216,8 +216,8 @@ export default function PedidosOracao() {
                         </motion.div>
 
                         {/* Gradient Fades for smoother edges */}
-                        <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-gray-50 to-transparent z-10 pointer-events-none" />
-                        <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-gray-50 to-transparent z-10 pointer-events-none" />
+                        <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
+                        <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
                     </div>
                 </div>
 
