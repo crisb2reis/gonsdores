@@ -5,45 +5,55 @@ import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 import { Camera, Plus, Trash2, Calendar, Link as LinkIcon, Image as ImageIcon, Loader2, AlertCircle } from "lucide-react";
 import Link from "next/link";
 
-interface Photo {
+interface MediaItem {
     id: string;
     created_at: string;
     url: string;
     caption: string;
     event_date: string;
+    media_type: 'image' | 'video';
+    thumbnail_url?: string;
 }
 
 export default function AdminGaleria() {
     const [loading, setLoading] = useState(true);
-    const [photos, setPhotos] = useState<Photo[]>([]);
+    const [items, setItems] = useState<MediaItem[]>([]);
     const [isAdding, setIsAdding] = useState(false);
 
-    // New Photo Form
+    // New Media Form
     const [url, setUrl] = useState("");
     const [caption, setCaption] = useState("");
     const [eventDate, setEventDate] = useState("");
+    const [mediaType, setMediaType] = useState<'image' | 'video'>('image');
+    const [thumbnailUrl, setThumbnailUrl] = useState("");
     const [submitting, setSubmitting] = useState(false);
 
-    useEffect(() => {
-        fetchPhotos();
-    }, []);
-
-    const fetchPhotos = async () => {
-        setLoading(true);
+    const fetchMedia = async (showLoading = true) => {
+        if (showLoading) setLoading(true);
         const { data, error } = await supabase
             .from("gallery_photos")
             .select("*")
             .order("created_at", { ascending: false });
 
         if (error) {
-            console.error("Erro ao buscar fotos:", error);
+            console.error("Erro ao buscar mídia:", error);
         } else {
-            setPhotos(data || []);
+            // Normalize data to ensure media_type exists
+            const normalizedData = (data || []).map(item => ({
+                ...item,
+                media_type: item.media_type || 'image'
+            }));
+            setItems(normalizedData);
         }
         setLoading(false);
     };
 
-    const handleAddPhoto = async (e: React.FormEvent) => {
+    useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        fetchMedia(false);
+    }, []);
+
+    const handleAddMedia = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!url || !caption || !eventDate) {
             alert("Preencha todos os campos.");
@@ -53,32 +63,40 @@ export default function AdminGaleria() {
         setSubmitting(true);
         const { error } = await supabase
             .from("gallery_photos")
-            .insert([{ url, caption, event_date: eventDate }]);
+            .insert([{
+                url,
+                caption,
+                event_date: eventDate,
+                media_type: mediaType,
+                thumbnail_url: mediaType === 'video' ? thumbnailUrl : null
+            }]);
 
         if (error) {
             console.error("Erro detalhado do Supabase:", error);
-            alert(`Erro ao adicionar foto: ${error.message}${error.code ? ` (código: ${error.code})` : ''}`);
+            alert(`Erro ao adicionar: ${error.message}${error.code ? ` (código: ${error.code})` : ''}`);
         } else {
             setIsAdding(false);
             setUrl("");
             setCaption("");
             setEventDate("");
-            fetchPhotos();
+            setMediaType('image');
+            setThumbnailUrl("");
+            fetchMedia(true);
         }
         setSubmitting(false);
     };
 
-    const deletePhoto = async (id: string) => {
-        if (!confirm("Tem certeza que deseja remover esta foto?")) return;
+    const deleteMedia = async (id: string) => {
+        if (!confirm("Tem certeza que deseja remover este item?")) return;
         const { error } = await supabase
             .from("gallery_photos")
             .delete()
             .eq("id", id);
 
         if (error) {
-            alert("Erro ao excluir foto.");
+            alert("Erro ao excluir item.");
         } else {
-            setPhotos(prev => prev.filter(p => p.id !== id));
+            setItems(prev => prev.filter(p => p.id !== id));
         }
     };
 
@@ -91,7 +109,7 @@ export default function AdminGaleria() {
                         <AlertCircle className="w-6 h-6 shrink-0" />
                         <div>
                             <p className="font-bold">Atenção: Banco de dados não configurado!</p>
-                            <p className="text-sm text-red-600">O GitHub Pages ainda não recebeu suas chaves do Supabase. Verifique os "Secrets" no GitHub e aguarde o novo deploy terminar.</p>
+                            <p className="text-sm text-red-600">O GitHub Pages ainda não recebeu suas chaves do Supabase. Verifique os &quot;Secrets&quot; no GitHub e aguarde o novo deploy terminar.</p>
                         </div>
                     </div>
                 )}
@@ -128,24 +146,74 @@ export default function AdminGaleria() {
                     <div className="bg-white rounded-3xl p-8 shadow-sm border border-purple-100 mb-8 animate-slide-down">
                         <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
                             <Plus className="w-5 h-5 text-purple-600" />
-                            Nova Foto
+                            Nova Mídia
                         </h2>
-                        <form onSubmit={handleAddPhoto} className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <form onSubmit={handleAddMedia} className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div className="md:col-span-2 flex items-center gap-6 p-4 bg-gray-50 rounded-2xl border border-gray-100 mb-2">
+                                <span className="text-sm font-semibold text-gray-700">Tipo de Mídia:</span>
+                                <div className="flex items-center gap-4">
+                                    <label className="flex items-center gap-2 cursor-pointer group">
+                                        <input
+                                            type="radio"
+                                            name="mediaType"
+                                            value="image"
+                                            checked={mediaType === 'image'}
+                                            onChange={() => setMediaType('image')}
+                                            className="w-4 h-4 text-purple-600 focus:ring-purple-500"
+                                        />
+                                        <span className={`text-sm ${mediaType === 'image' ? 'text-purple-700 font-bold' : 'text-gray-600'}`}>Foto</span>
+                                    </label>
+                                    <label className="flex items-center gap-2 cursor-pointer group">
+                                        <input
+                                            type="radio"
+                                            name="mediaType"
+                                            value="video"
+                                            checked={mediaType === 'video'}
+                                            onChange={() => setMediaType('video')}
+                                            className="w-4 h-4 text-purple-600 focus:ring-purple-500"
+                                        />
+                                        <span className={`text-sm ${mediaType === 'video' ? 'text-purple-700 font-bold' : 'text-gray-600'}`}>Vídeo</span>
+                                    </label>
+                                </div>
+                            </div>
+
                             <div className="md:col-span-2 space-y-2">
-                                <label className="text-sm font-semibold text-gray-700">Link da Imagem (URL)</label>
+                                <label className="text-sm font-semibold text-gray-700">
+                                    {mediaType === 'image' ? 'Link da Imagem (URL)' : 'Link do Vídeo (URL)'}
+                                </label>
                                 <div className="relative">
                                     <LinkIcon className="absolute left-4 top-3.5 w-5 h-5 text-gray-400" />
                                     <input
                                         type="url"
                                         value={url}
                                         onChange={(e) => setUrl(e.target.value)}
-                                        placeholder="https://exemplo.com/foto.jpg"
+                                        placeholder={mediaType === 'image' ? "https://exemplo.com/foto.jpg" : "https://youtube.com/watch?v=..."}
                                         className="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
                                         required
                                     />
                                 </div>
-                                <p className="text-[10px] text-gray-400 mt-1">Dica: Use links diretos de imagens hospedadas (Google Drive, Imgur, etc.)</p>
+                                <p className="text-[10px] text-gray-400 mt-1">
+                                    {mediaType === 'image'
+                                        ? "Dica: Use links diretos de imagens hospedadas (Google Drive, Imgur, etc.)"
+                                        : "Dica: Suporta links do YouTube, Shorts ou arquivos .mp4 diretos."}
+                                </p>
                             </div>
+
+                            {mediaType === 'video' && (
+                                <div className="md:col-span-2 space-y-2 animate-fade-in">
+                                    <label className="text-sm font-semibold text-gray-700">Capa do Vídeo (Thumbnail URL) - Opcional</label>
+                                    <div className="relative">
+                                        <ImageIcon className="absolute left-4 top-3.5 w-5 h-5 text-gray-400" />
+                                        <input
+                                            type="url"
+                                            value={thumbnailUrl}
+                                            onChange={(e) => setThumbnailUrl(e.target.value)}
+                                            placeholder="https://exemplo.com/capa.jpg"
+                                            className="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
+                                        />
+                                    </div>
+                                </div>
+                            )}
                             <div className="space-y-2">
                                 <label className="text-sm font-semibold text-gray-700">Legenda / Evento</label>
                                 <input
@@ -189,32 +257,51 @@ export default function AdminGaleria() {
                         <div className="w-12 h-12 border-4 border-purple-700 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
                         <p className="text-gray-500 font-medium">Carregando fotos...</p>
                     </div>
-                ) : photos.length === 0 ? (
+                ) : items.length === 0 ? (
                     <div className="bg-white rounded-3xl p-12 text-center shadow-sm border border-gray-200">
                         <ImageIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                        <h2 className="text-xl font-bold text-gray-800">Nenhuma foto encontrada</h2>
+                        <h2 className="text-xl font-bold text-gray-800">Nenhuma mídia encontrada</h2>
                         <p className="text-gray-500 max-w-xs mx-auto mt-2">
-                            Clique em "Adicionar Foto" para começar a preencher sua galeria.
+                            Clique em &quot;Adicionar&quot; para começar a preencher sua galeria.
                         </p>
                     </div>
                 ) : (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {photos.map((p) => (
-                            <div key={p.id} className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-200 group">
+                        {items.map((item) => (
+                            <div key={item.id} className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-200 group">
                                 <div className="aspect-video relative bg-gray-100">
-                                    <img src={p.url} alt={p.caption} className="w-full h-full object-cover" />
+                                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                                    <img
+                                        src={item.media_type === 'video' ? (item.thumbnail_url || item.url) : item.url}
+                                        alt={item.caption}
+                                        className="w-full h-full object-cover"
+                                    />
+
+                                    {item.media_type === 'video' && (
+                                        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                            <div className="bg-purple-700/80 text-white p-3 rounded-full shadow-xl">
+                                                <Loader2 className="w-5 h-5" /> {/* Use static icon as placeholder for video type */}
+                                            </div>
+                                        </div>
+                                    )}
+
                                     <button
-                                        onClick={() => deletePhoto(p.id)}
+                                        onClick={() => deleteMedia(item.id)}
                                         className="absolute top-2 right-2 p-2 bg-red-500 text-white rounded-lg opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600 shadow-lg"
                                     >
                                         <Trash2 className="w-4 h-4" />
                                     </button>
                                 </div>
                                 <div className="p-4">
-                                    <p className="font-bold text-gray-900 truncate">{p.caption}</p>
-                                    <div className="flex items-center gap-2 text-gray-500 text-xs mt-1">
+                                    <div className="flex items-center justify-between gap-2 mb-1">
+                                        <p className="font-bold text-gray-900 truncate">{item.caption}</p>
+                                        <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold uppercase ${item.media_type === 'video' ? 'bg-blue-100 text-blue-700' : 'bg-purple-100 text-purple-700'}`}>
+                                            {item.media_type}
+                                        </span>
+                                    </div>
+                                    <div className="flex items-center gap-2 text-gray-500 text-xs">
                                         <Calendar className="w-3 h-3" />
-                                        {new Date(p.event_date).toLocaleDateString("pt-BR")}
+                                        {new Date(item.event_date).toLocaleDateString("pt-BR")}
                                     </div>
                                 </div>
                             </div>
