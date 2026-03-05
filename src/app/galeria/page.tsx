@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
-import { Camera, Calendar, Maximize2, X } from "lucide-react";
+import { Camera, Calendar, Maximize2, X, Play } from "lucide-react";
 import Image from "next/image";
 import { getAssetPath } from "@/lib/utils";
 
@@ -44,22 +44,18 @@ export default function Galeria() {
         setLoading(false);
     };
 
+    const getYouTubeId = (url: string) => {
+        if (!url) return "";
+        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=|\/shorts\/|\/live\/)([^#&?]*).*/;
+        const match = url.match(regExp);
+        return (match && match[2].length === 11) ? match[2] : "";
+    };
+
     const getThumbnail = (item: MediaItem) => {
         if (item.media_type === 'image') return item.url;
         if (item.thumbnail_url) return item.thumbnail_url;
 
-        // Try to extract YouTube ID
-        const url = item.url;
-        let videoId = "";
-
-        if (url.includes('youtube.com/shorts/')) {
-            videoId = url.split('/shorts/')[1]?.split('?')[0];
-        } else if (url.includes('watch?v=')) {
-            videoId = url.split('watch?v=')[1]?.split('&')[0];
-        } else if (url.includes('youtu.be/')) {
-            videoId = url.split('youtu.be/')[1]?.split('?')[0];
-        }
-
+        const videoId = getYouTubeId(item.url);
         if (videoId) {
             return `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
         }
@@ -114,7 +110,7 @@ export default function Galeria() {
                                 {item.media_type === 'video' && (
                                     <div className="absolute inset-0 flex items-center justify-center z-10">
                                         <div className="bg-purple-600/90 text-white p-4 rounded-full shadow-lg group-hover:scale-110 transition-transform duration-300">
-                                            <Maximize2 className="w-6 h-6 fill-current" />
+                                            <Play className="w-6 h-6 fill-current" />
                                         </div>
                                     </div>
                                 )}
@@ -156,13 +152,7 @@ export default function Galeria() {
                             <div className="w-full aspect-video rounded-lg overflow-hidden shadow-2xl bg-black">
                                 {selectedItem.url.includes('youtube.com') || selectedItem.url.includes('youtu.be') ? (
                                     <iframe
-                                        src={
-                                            selectedItem.url.includes('/shorts/')
-                                                ? selectedItem.url.replace('/shorts/', '/embed/').split('?')[0]
-                                                : selectedItem.url.includes('watch?v=')
-                                                    ? selectedItem.url.replace('watch?v=', 'embed/').split('&')[0]
-                                                    : selectedItem.url // fallback
-                                        }
+                                        src={`https://www.youtube.com/embed/${getYouTubeId(selectedItem.url)}`}
                                         className="w-full h-full"
                                         title={selectedItem.caption}
                                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

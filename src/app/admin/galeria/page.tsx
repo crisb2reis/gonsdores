@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
-import { Camera, Plus, Trash2, Calendar, Link as LinkIcon, Image as ImageIcon, Loader2, AlertCircle } from "lucide-react";
+import { Camera, Plus, Trash2, Calendar, Link as LinkIcon, Image as ImageIcon, Loader2, AlertCircle, Play } from "lucide-react";
 import Link from "next/link";
 
 interface MediaItem {
@@ -100,22 +100,18 @@ export default function AdminGaleria() {
         }
     };
 
+    const getYouTubeId = (url: string) => {
+        if (!url) return "";
+        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=|\/shorts\/|\/live\/)([^#&?]*).*/;
+        const match = url.match(regExp);
+        return (match && match[2].length === 11) ? match[2] : "";
+    };
+
     const getThumbnail = (item: MediaItem) => {
         if (item.media_type === 'image') return item.url;
         if (item.thumbnail_url) return item.thumbnail_url;
 
-        // Try to extract YouTube ID
-        const url = item.url;
-        let videoId = "";
-
-        if (url.includes('youtube.com/shorts/')) {
-            videoId = url.split('/shorts/')[1]?.split('?')[0];
-        } else if (url.includes('watch?v=')) {
-            videoId = url.split('watch?v=')[1]?.split('&')[0];
-        } else if (url.includes('youtu.be/')) {
-            videoId = url.split('youtu.be/')[1]?.split('?')[0];
-        }
-
+        const videoId = getYouTubeId(item.url);
         if (videoId) {
             return `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
         }
@@ -307,7 +303,7 @@ export default function AdminGaleria() {
                                     {item.media_type === 'video' && (
                                         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                                             <div className="bg-purple-700/80 text-white p-3 rounded-full shadow-xl">
-                                                <Loader2 className="w-5 h-5" /> {/* Use static icon as placeholder for video type */}
+                                                <Play className="w-5 h-5 fill-current" />
                                             </div>
                                         </div>
                                     )}
