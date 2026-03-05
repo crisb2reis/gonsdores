@@ -100,6 +100,29 @@ export default function AdminGaleria() {
         }
     };
 
+    const getThumbnail = (item: MediaItem) => {
+        if (item.media_type === 'image') return item.url;
+        if (item.thumbnail_url) return item.thumbnail_url;
+
+        // Try to extract YouTube ID
+        const url = item.url;
+        let videoId = "";
+
+        if (url.includes('youtube.com/shorts/')) {
+            videoId = url.split('/shorts/')[1]?.split('?')[0];
+        } else if (url.includes('watch?v=')) {
+            videoId = url.split('watch?v=')[1]?.split('&')[0];
+        } else if (url.includes('youtu.be/')) {
+            videoId = url.split('youtu.be/')[1]?.split('?')[0];
+        }
+
+        if (videoId) {
+            return `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
+        }
+
+        return item.url; // Fallback
+    };
+
     return (
         <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-5xl mx-auto">
@@ -272,9 +295,13 @@ export default function AdminGaleria() {
                                 <div className="aspect-video relative bg-gray-100">
                                     {/* eslint-disable-next-line @next/next/no-img-element */}
                                     <img
-                                        src={item.media_type === 'video' ? (item.thumbnail_url || item.url) : item.url}
+                                        src={getThumbnail(item)}
                                         alt={item.caption}
                                         className="w-full h-full object-cover"
+                                        onError={(e) => {
+                                            // Fallback for broken images
+                                            (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&w=1000&auto=format&fit=crop";
+                                        }}
                                     />
 
                                     {item.media_type === 'video' && (

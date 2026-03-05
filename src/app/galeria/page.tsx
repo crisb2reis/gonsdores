@@ -44,6 +44,29 @@ export default function Galeria() {
         setLoading(false);
     };
 
+    const getThumbnail = (item: MediaItem) => {
+        if (item.media_type === 'image') return item.url;
+        if (item.thumbnail_url) return item.thumbnail_url;
+
+        // Try to extract YouTube ID
+        const url = item.url;
+        let videoId = "";
+
+        if (url.includes('youtube.com/shorts/')) {
+            videoId = url.split('/shorts/')[1]?.split('?')[0];
+        } else if (url.includes('watch?v=')) {
+            videoId = url.split('watch?v=')[1]?.split('&')[0];
+        } else if (url.includes('youtu.be/')) {
+            videoId = url.split('youtu.be/')[1]?.split('?')[0];
+        }
+
+        if (videoId) {
+            return `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
+        }
+
+        return item.url; // Fallback
+    };
+
     return (
         <div className="flex flex-col min-h-screen bg-gray-50">
             {/* Header / Hero */}
@@ -79,9 +102,13 @@ export default function Galeria() {
                                 onClick={() => setSelectedItem(item)}
                             >
                                 <img
-                                    src={item.media_type === 'video' ? (item.thumbnail_url || item.url) : item.url}
+                                    src={getThumbnail(item)}
                                     alt={item.caption}
                                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                    onError={(e) => {
+                                        // Fallback for broken images
+                                        (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&w=1000&auto=format&fit=crop";
+                                    }}
                                 />
 
                                 {item.media_type === 'video' && (
