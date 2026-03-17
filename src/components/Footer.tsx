@@ -56,7 +56,7 @@ export default function Footer() {
                         <ul className="space-y-4">
                             <li className="flex items-start gap-3 text-gray-600 text-sm">
                                 <MapPin className="h-5 w-5 shrink-0 text-purple-600" />
-                                <span>Paróquia São Peregrino<br />São José dos Campos - SP</span>
+                                <span>Igreja São Peregrino<br />São José dos Campos - SP</span>
                             </li>
                             <li className="flex items-center gap-3 text-gray-600 text-sm">
                                 <Phone className="h-5 w-5 shrink-0 text-purple-600" />

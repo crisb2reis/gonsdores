@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import { HeartHandshake, Clock, User, Mail, Eye, EyeOff, Trash2 } from "lucide-react";
+import LogoutButton from "@/components/LogoutButton";
 
 interface PrayerRequest {
     id: string;
@@ -104,6 +105,7 @@ export default function AdminPedidos() {
                         >
                             Galeria &rarr;
                         </Link>
+                        <LogoutButton />
                     </div>
                 </div>
 

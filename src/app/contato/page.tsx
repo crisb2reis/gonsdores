@@ -52,7 +52,7 @@ export default function Contato() {
                         </div>
                         <div>
                             <h3 className="font-bold text-gray-900 mb-1">Endereço (Encontros)</h3>
-                            <p className="text-gray-600">Paróquia São Peregrino<br />Rua Exemplo, 123 - Centro<br />São José dos Campos - SP</p>
+                            <p className="text-gray-600">Igreja São Peregrino<br />Rua Exemplo, 123 - Centro<br />São José dos Campos - SP</p>
                         </div>
                     </div>
                 </div>

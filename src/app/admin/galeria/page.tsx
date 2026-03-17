@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 import { Camera, Plus, Trash2, Calendar, Link as LinkIcon, Image as ImageIcon, Loader2, AlertCircle, Play } from "lucide-react";
 import Link from "next/link";
+import LogoutButton from "@/components/LogoutButton";
 
 interface MediaItem {
     id: string;
@@ -39,7 +40,7 @@ export default function AdminGaleria() {
             console.error("Erro ao buscar mídia:", error);
         } else {
             // Normalize data to ensure media_type exists
-            const normalizedData = (data || []).map(item => ({
+            const normalizedData = (data || []).map((item: MediaItem) => ({
                 ...item,
                 media_type: item.media_type || 'image'
             }));
@@ -157,6 +158,7 @@ export default function AdminGaleria() {
                         >
                             {isAdding ? "Cancelar" : <><Plus className="w-4 h-4" /> Adicionar Foto</>}
                         </button>
+                        <LogoutButton />
                     </div>
                 </div>
 

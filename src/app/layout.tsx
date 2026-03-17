@@ -16,7 +16,7 @@ const playfair = Playfair_Display({
 
 export const metadata: Metadata = {
   title: "Grupo de Oração Nossa Senhora das Dores",
-  description: "Grupo voltado à oração, esperança e paz. Paróquia São Peregrino, SP.",
+  description: "Grupo voltado à oração, esperança e paz. Igreja São Peregrino, SP.",
 };
 
 export default function RootLayout({

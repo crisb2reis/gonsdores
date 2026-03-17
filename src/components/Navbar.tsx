@@ -18,6 +18,7 @@ export default function Navbar() {
     { href: "/testemunhos", label: "Testemunhos" },
     { href: "/pedidos-oracao", label: "Pedidos" },
     { href: "/galeria", label: "Galeria" },
+    { href: "/admin/pedidos", label: "Admin" },
   ];
 
   return (

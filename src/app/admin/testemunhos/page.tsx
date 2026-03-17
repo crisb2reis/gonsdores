@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import { Check, X, Shield, Clock, User } from "lucide-react";
+import LogoutButton from "@/components/LogoutButton";
 
 interface Testimonial {
     id: string;
@@ -77,6 +78,7 @@ export default function AdminTestemunhos() {
                         >
                             Galeria &rarr;
                         </Link>
+                        <LogoutButton />
                     </div>
                 </div>
 

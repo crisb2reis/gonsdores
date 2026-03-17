@@ -24,7 +24,7 @@ export default function Home() {
             Nossa Senhora das Dores
           </h1>
           <p className="text-purple-100 text-lg md:text-xl font-medium mb-2">
-            Paróquia São Peregrino – São José dos Campos – SP
+            Igreja São Peregrino – São José dos Campos – SP
           </p>
           <p className="text-white/80 max-w-2xl mx-auto text-base md:text-lg mb-10">
             Um lugar de encontro espiritual, esperança e renovação da fé através da interseção de Nossa Senhora das Dores.
@@ -112,7 +112,7 @@ export default function Home() {
                   <MapPin className="h-6 w-6 text-purple-300 shrink-0" />
                   <div>
                     <h4 className="text-white font-medium">Capela Principal</h4>
-                    <p className="text-purple-200 text-sm">Paróquia São Peregrino</p>
+                    <p className="text-purple-200 text-sm">Igreja São Peregrino</p>
                   </div>
                 </div>
               </div>
