@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { HeartHandshake, CheckCircle2, Send, Loader2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { supabase } from "@/lib/supabase";
@@ -13,6 +13,41 @@ export default function PedidosOracao() {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
     const [error, setError] = useState("");
+    const [prayerRequests, setPrayerRequests] = useState<any[]>([]);
+
+    const fetchRequests = async () => {
+        try {
+            const { data, error } = await supabase
+                .from("prayer_requests")
+                .select("*")
+                .neq("visibilidade", "private")
+                .eq("status", "prayed")
+                .order("created_at", { ascending: false })
+                .limit(10);
+
+            if (error) throw error;
+            if (data) setPrayerRequests(data);
+        } catch (err) {
+            console.error("Erro ao carregar pedidos:", err);
+        }
+    };
+
+    useEffect(() => {
+        fetchRequests();
+    }, []);
+
+    const getRelativeTime = (dateString: string) => {
+        const now = new Date();
+        const past = new Date(dateString);
+        const diffMs = now.getTime() - past.getTime();
+        const diffMins = Math.floor(diffMs / 60000);
+        const diffHours = Math.floor(diffMins / 60);
+        const diffDays = Math.floor(diffHours / 24);
+
+        if (diffMins < 60) return `Há ${diffMins} min`;
+        if (diffHours < 24) return `Há ${diffHours} h`;
+        return `Há ${diffDays} d`;
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -47,6 +82,9 @@ export default function PedidosOracao() {
             setEmail("");
             setRequestText("");
             setVisibility("private");
+
+            // Recarregar pedidos após o envio bem-sucedido
+            fetchRequests();
 
             setTimeout(() => setIsSuccess(false), 5000);
         } catch (err: any) {
@@ -178,9 +216,9 @@ export default function PedidosOracao() {
                     <div className="relative group">
                         <motion.div
                             className="flex gap-6 py-4"
-                            animate={{
-                                x: [0, -1504], // Approximate width of 4 cards + gaps
-                            }}
+                            animate={prayerRequests.length > 3 ? {
+                                x: [0, -1500], // Ajustado aproximado
+                            } : {}}
                             transition={{
                                 x: {
                                     repeat: Infinity,
@@ -191,28 +229,38 @@ export default function PedidosOracao() {
                             }}
                             style={{ width: "fit-content" }}
                         >
-                            {/* Duplicate the list to create infinite effect */}
-                            {[...Array(2)].map((_, listIdx) => (
-                                <div key={listIdx} className="flex gap-6">
-                                    {[1, 2, 3, 4].map((item) => (
-                                        <div key={item} className="w-[280px] sm:w-[350px] min-w-0 bg-white p-6 rounded-2xl shadow-sm border border-gray-100 shrink-0">
-                                            <div className="flex items-center justify-between mb-4">
-                                                <div className="flex items-center gap-2">
-                                                    <HeartHandshake className="w-5 h-5 text-purple-500" />
-                                                    <span className="font-semibold text-gray-900 text-sm">{item % 2 === 0 ? "Anônimo" : "Maria José"}</span>
+                            {/* Duplicate the list to create infinite effect only if there are enough items */}
+                            {prayerRequests.length > 0 ? (
+                                <>
+                                    {[...Array(prayerRequests.length > 3 ? 2 : 1)].map((_, listIdx) => (
+                                        <div key={listIdx} className="flex gap-6">
+                                            {prayerRequests.map((req) => (
+                                                <div key={req.id || `${listIdx}-${req.created_at}`} className="w-[280px] sm:w-[350px] min-w-0 bg-white p-6 rounded-2xl shadow-sm border border-gray-100 shrink-0">
+                                                    <div className="flex items-center justify-between mb-4">
+                                                        <div className="flex items-center gap-2">
+                                                            <HeartHandshake className="w-5 h-5 text-purple-500" />
+                                                            <span className="font-semibold text-gray-900 text-sm">
+                                                                {req.visibilidade === "public-anon" ? "Anônimo" : (req.nome || "Anônimo")}
+                                                            </span>
+                                                        </div>
+                                                        <span className="text-xs text-gray-400 font-medium">{getRelativeTime(req.created_at)}</span>
+                                                    </div>
+                                                    <p className="text-gray-600 text-sm leading-relaxed whitespace-pre-wrap break-words italic">
+                                                        "{req.pedido}"
+                                                    </p>
+                                                    <button className="mt-4 text-sm font-semibold text-purple-600 hover:text-purple-800 transition-colors">
+                                                        Rezar por esta intenção
+                                                    </button>
                                                 </div>
-                                                <span className="text-xs text-gray-400 font-medium">Há 2 horas</span>
-                                            </div>
-                                            <p className="text-gray-600 text-sm leading-relaxed whitespace-pre-wrap break-words">
-                                                "Peço oração pela restauração da saúde do meu marido que se encontra internado, e por forças para toda a nossa família neste momento difícil."
-                                            </p>
-                                            <button className="mt-4 text-sm font-semibold text-purple-600 hover:text-purple-800 transition-colors">
-                                                Rezar por esta intenção
-                                            </button>
+                                            ))}
                                         </div>
                                     ))}
+                                </>
+                            ) : (
+                                <div className="p-8 text-center text-gray-400 w-full">
+                                    Nenhum pedido público ainda. Seja o primeiro a pedir oração.
                                 </div>
-                            ))}
+                            )}
                         </motion.div>
 
                         {/* Gradient Fades for smoother edges */}

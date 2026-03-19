@@ -13,6 +13,7 @@ interface MediaItem {
     caption: string;
     event_date: string;
     media_type: 'image' | 'video';
+    category?: string; // 'evento' ou 'atividade'
     thumbnail_url?: string;
 }
 
@@ -26,6 +27,7 @@ export default function AdminGaleria() {
     const [caption, setCaption] = useState("");
     const [eventDate, setEventDate] = useState("");
     const [mediaType, setMediaType] = useState<'image' | 'video'>('image');
+    const [category, setCategory] = useState("atividade");
     const [thumbnailUrl, setThumbnailUrl] = useState("");
     const [submitting, setSubmitting] = useState(false);
 
@@ -42,7 +44,8 @@ export default function AdminGaleria() {
             // Normalize data to ensure media_type exists
             const normalizedData = (data || []).map((item: MediaItem) => ({
                 ...item,
-                media_type: item.media_type || 'image'
+                media_type: item.media_type || 'image',
+                category: item.category || 'atividade'
             }));
             setItems(normalizedData);
         }
@@ -69,6 +72,7 @@ export default function AdminGaleria() {
                 caption,
                 event_date: eventDate,
                 media_type: mediaType,
+                category: category,
                 thumbnail_url: mediaType === 'video' ? thumbnailUrl : null
             }]);
 
@@ -81,6 +85,7 @@ export default function AdminGaleria() {
             setCaption("");
             setEventDate("");
             setMediaType('image');
+            setCategory('atividade');
             setThumbnailUrl("");
             fetchMedia(true);
         }
@@ -197,6 +202,36 @@ export default function AdminGaleria() {
                                     </label>
                                 </div>
                             </div>
+
+                            <div className="md:col-span-2 flex items-center gap-6 p-4 bg-gray-50 rounded-2xl border border-gray-100 mb-2">
+                                <span className="text-sm font-semibold text-gray-700">Categoria:</span>
+                                <div className="flex items-center gap-4">
+                                    <label className="flex items-center gap-2 cursor-pointer group">
+                                        <input
+                                            type="radio"
+                                            name="category"
+                                            value="atividade"
+                                            checked={category === 'atividade'}
+                                            onChange={() => setCategory('atividade')}
+                                            className="w-4 h-4 text-purple-600 focus:ring-purple-500"
+                                        />
+                                        <span className={`text-sm ${category === 'atividade' ? 'text-purple-700 font-bold' : 'text-gray-600'}`}>Atividade do Grupo</span>
+                                    </label>
+                                    <label className="flex items-center gap-2 cursor-pointer group">
+                                        <input
+                                            type="radio"
+                                            name="category"
+                                            value="evento"
+                                            checked={category === 'evento'}
+                                            onChange={() => setCategory('evento')}
+                                            className="w-4 h-4 text-purple-600 focus:ring-purple-500"
+                                        />
+                                        <span className={`text-sm ${category === 'evento' ? 'text-purple-700 font-bold' : 'text-gray-600'}`}>Evento Especial</span>
+                                    </label>
+                                </div>
+                            </div>
+
+
 
                             <div className="md:col-span-2 space-y-2">
                                 <label className="text-sm font-semibold text-gray-700">
@@ -320,9 +355,14 @@ export default function AdminGaleria() {
                                 <div className="p-4">
                                     <div className="flex items-center justify-between gap-2 mb-1">
                                         <p className="font-bold text-gray-900 truncate">{item.caption}</p>
-                                        <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold uppercase ${item.media_type === 'video' ? 'bg-blue-100 text-blue-700' : 'bg-purple-100 text-purple-700'}`}>
-                                            {item.media_type}
-                                        </span>
+                                        <div className="flex gap-1">
+                                            <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold uppercase ${item.media_type === 'video' ? 'bg-blue-100 text-blue-700' : 'bg-purple-100 text-purple-700'}`}>
+                                                {item.media_type}
+                                            </span>
+                                            <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold uppercase ${item.category === 'evento' ? 'bg-amber-100 text-amber-700' : 'bg-emerald-100 text-emerald-700'}`}>
+                                                {item.category}
+                                            </span>
+                                        </div>
                                     </div>
                                     <div className="flex items-center gap-2 text-gray-500 text-xs">
                                         <Calendar className="w-3 h-3" />

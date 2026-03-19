@@ -19,8 +19,8 @@ export default function Contato() {
                             <Phone className="w-6 h-6" />
                         </div>
                         <div>
-                            <h3 className="font-bold text-gray-900 mb-1">Telefone da Paróquia</h3>
-                            <p className="text-gray-600">(12) 3456-7890</p>
+                            <h3 className="font-bold text-gray-900 mb-1">Telefone da Igreja</h3>
+                            <p className="text-gray-600">(12) 3923-9911</p>
                             <p className="text-sm text-gray-400 mt-1">Secretaria: Seg-Sex, 08h-18h</p>
                         </div>
                     </div>
