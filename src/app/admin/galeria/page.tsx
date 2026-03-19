@@ -9,7 +9,7 @@ import LogoutButton from "@/components/LogoutButton";
 interface MediaItem {
     id: string;
     created_at: string;
-    url: string;
+    url: string[];
     caption: string;
     event_date: string;
     media_type: 'image' | 'video';
@@ -23,7 +23,7 @@ export default function AdminGaleria() {
     const [isAdding, setIsAdding] = useState(false);
 
     // New Media Form
-    const [url, setUrl] = useState("");
+    const [urls, setUrls] = useState<string[]>([""]);
     const [caption, setCaption] = useState("");
     const [eventDate, setEventDate] = useState("");
     const [mediaType, setMediaType] = useState<'image' | 'video'>('image');
@@ -42,10 +42,11 @@ export default function AdminGaleria() {
             console.error("Erro ao buscar mídia:", error);
         } else {
             // Normalize data to ensure media_type exists
-            const normalizedData = (data || []).map((item: MediaItem) => ({
+            const normalizedData = (data || []).map((item: any) => ({
                 ...item,
                 media_type: item.media_type || 'image',
-                category: item.category || 'atividade'
+                category: item.category || 'atividade',
+                url: Array.isArray(item.url) ? item.url : [item.url]
             }));
             setItems(normalizedData);
         }
@@ -59,8 +60,9 @@ export default function AdminGaleria() {
 
     const handleAddMedia = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!url || !caption || !eventDate) {
-            alert("Preencha todos os campos.");
+        const filteredUrls = urls.filter(u => u.trim() !== "");
+        if (filteredUrls.length === 0 || !caption || !eventDate) {
+            alert("Preencha todos os campos e pelo menos uma URL.");
             return;
         }
 
@@ -68,7 +70,7 @@ export default function AdminGaleria() {
         const { error } = await supabase
             .from("gallery_photos")
             .insert([{
-                url,
+                url: filteredUrls,
                 caption,
                 event_date: eventDate,
                 media_type: mediaType,
@@ -81,7 +83,7 @@ export default function AdminGaleria() {
             alert(`Erro ao adicionar: ${error.message}${error.code ? ` (código: ${error.code})` : ''}`);
         } else {
             setIsAdding(false);
-            setUrl("");
+            setUrls([""]);
             setCaption("");
             setEventDate("");
             setMediaType('image');
@@ -114,10 +116,11 @@ export default function AdminGaleria() {
     };
 
     const getThumbnail = (item: MediaItem) => {
-        if (item.media_type === 'image') return item.url;
+        const firstUrl = Array.isArray(item.url) ? item.url[0] : item.url;
+        if (item.media_type === 'image') return firstUrl;
         if (item.thumbnail_url) return item.thumbnail_url;
 
-        const videoId = getYouTubeId(item.url);
+        const videoId = getYouTubeId(firstUrl);
         if (videoId) {
             return `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
         }
@@ -233,21 +236,51 @@ export default function AdminGaleria() {
 
 
 
-                            <div className="md:col-span-2 space-y-2">
-                                <label className="text-sm font-semibold text-gray-700">
-                                    {mediaType === 'image' ? 'Link da Imagem (URL)' : 'Link do Vídeo (URL)'}
+                            <div className="md:col-span-2 space-y-4">
+                                <label className="text-sm font-semibold text-gray-700 block">
+                                    {mediaType === 'image' ? 'Links das Imagens (URLs)' : 'Link do Vídeo (URL)'}
                                 </label>
-                                <div className="relative">
-                                    <LinkIcon className="absolute left-4 top-3.5 w-5 h-5 text-gray-400" />
-                                    <input
-                                        type="url"
-                                        value={url}
-                                        onChange={(e) => setUrl(e.target.value)}
-                                        placeholder={mediaType === 'image' ? "https://exemplo.com/foto.jpg" : "https://youtube.com/watch?v=..."}
-                                        className="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
-                                        required
-                                    />
-                                </div>
+                                
+                                {urls.map((u, index) => (
+                                    <div key={index} className="flex gap-2 animate-fade-in">
+                                        <div className="relative flex-1">
+                                            <LinkIcon className="absolute left-4 top-3.5 w-5 h-5 text-gray-400" />
+                                            <input
+                                                type="url"
+                                                value={u}
+                                                onChange={(e) => {
+                                                    const newUrls = [...urls];
+                                                    newUrls[index] = e.target.value;
+                                                    setUrls(newUrls);
+                                                }}
+                                                placeholder={mediaType === 'image' ? "https://exemplo.com/foto.jpg" : "https://youtube.com/watch?v=..."}
+                                                className="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
+                                                required={index === 0}
+                                            />
+                                        </div>
+                                        {urls.length > 1 && (
+                                            <button
+                                                type="button"
+                                                onClick={() => setUrls(urls.filter((_, i) => i !== index))}
+                                                className="p-3 bg-red-50 text-red-500 rounded-xl hover:bg-red-100 transition-colors"
+                                            >
+                                                <Trash2 className="w-5 h-5" />
+                                            </button>
+                                        )}
+                                    </div>
+                                ))}
+
+                                {mediaType === 'image' && (
+                                    <button
+                                        type="button"
+                                        onClick={() => setUrls([...urls, ""])}
+                                        className="flex items-center gap-2 text-sm font-bold text-purple-700 hover:text-purple-800 transition-colors py-2"
+                                    >
+                                        <Plus className="w-4 h-4" />
+                                        Adicionar outra imagem
+                                    </button>
+                                )}
+
                                 <p className="text-[10px] text-gray-400 mt-1">
                                     {mediaType === 'image'
                                         ? "Dica: Use links diretos de imagens hospedadas (Google Drive, Imgur, etc.)"
@@ -328,7 +361,7 @@ export default function AdminGaleria() {
                                 <div className="aspect-video relative bg-gray-100">
                                     {/* eslint-disable-next-line @next/next/no-img-element */}
                                     <img
-                                        src={getThumbnail(item)}
+                                        src={getThumbnail(item) as string}
                                         alt={item.caption}
                                         className="w-full h-full object-cover"
                                         onError={(e) => {

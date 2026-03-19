@@ -2,13 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
-import { Camera, Calendar, Maximize2, X, Play, Shield, Sparkles, Users, Filter } from "lucide-react";
-import Image from "next/image";
-import { getAssetPath } from "@/lib/utils";
+import { Camera, Calendar, Maximize2, X, Play, Sparkles, Users, Filter, ChevronLeft, ChevronRight, Images } from "lucide-react";
 
 interface MediaItem {
     id: string;
-    url: string;
+    url: string[];
     caption: string;
     event_date: string;
     media_type: 'image' | 'video';
@@ -21,6 +19,7 @@ export default function Galeria() {
     const [loading, setLoading] = useState(true);
     const [selectedItem, setSelectedItem] = useState<MediaItem | null>(null);
     const [activeFilter, setActiveFilter] = useState<string>("todos");
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
     useEffect(() => {
         fetchMedia();
@@ -36,11 +35,11 @@ export default function Galeria() {
         if (error) {
             console.error("Erro ao buscar mídia:", error);
         } else {
-            // Se media_type ou category forem nulos, assumimos valores padrão
-            const normalizedData = (data || []).map(item => ({
+            const normalizedData = (data || []).map((item: any) => ({
                 ...item,
                 media_type: item.media_type || 'image',
-                category: item.category || 'atividade'
+                category: item.category || 'atividade',
+                url: Array.isArray(item.url) ? item.url : [item.url]
             }));
             setItems(normalizedData);
         }
@@ -55,16 +54,38 @@ export default function Galeria() {
     };
 
     const getThumbnail = (item: MediaItem) => {
-        if (item.media_type === 'image') return item.url;
+        const firstUrl = Array.isArray(item.url) ? item.url[0] : item.url;
+        if (item.media_type === 'image') return firstUrl;
         if (item.thumbnail_url) return item.thumbnail_url;
 
-        const videoId = getYouTubeId(item.url);
+        const videoId = getYouTubeId(firstUrl);
         if (videoId) {
             return `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
         }
 
-        return item.url; // Fallback
+        return firstUrl; // Fallback
     };
+
+    const nextImage = () => {
+        if (!selectedItem) return;
+        setCurrentImageIndex((prev) => (prev + 1) % selectedItem.url.length);
+    };
+
+    const prevImage = () => {
+        if (!selectedItem) return;
+        setCurrentImageIndex((prev) => (prev - 1 + selectedItem.url.length) % selectedItem.url.length);
+    };
+
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (!selectedItem) return;
+            if (e.key === "ArrowLeft") prevImage();
+            if (e.key === "ArrowRight") nextImage();
+            if (e.key === "Escape") setSelectedItem(null);
+        };
+        window.addEventListener("keydown", handleKeyDown);
+        return () => window.removeEventListener("keydown", handleKeyDown);
+    }, [selectedItem]);
     
     const filteredItems = activeFilter === "todos" 
         ? items 
@@ -140,14 +161,16 @@ export default function Galeria() {
                             <div
                                 key={item.id}
                                 className="group relative aspect-square bg-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer"
-                                onClick={() => setSelectedItem(item)}
+                                onClick={() => {
+                                    setSelectedItem(item);
+                                    setCurrentImageIndex(0);
+                                }}
                             >
                                 <img
-                                    src={getThumbnail(item)}
+                                    src={getThumbnail(item) as string}
                                     alt={item.caption}
                                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                                     onError={(e) => {
-                                        // Fallback for broken images
                                         (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&w=1000&auto=format&fit=crop";
                                     }}
                                 />
@@ -157,6 +180,13 @@ export default function Galeria() {
                                         <div className="bg-purple-600/90 text-white p-4 rounded-full shadow-lg group-hover:scale-110 transition-transform duration-300">
                                             <Play className="w-6 h-6 fill-current" />
                                         </div>
+                                    </div>
+                                )}
+
+                                {item.url.length > 1 && (
+                                    <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-md text-white text-[10px] font-bold px-2 py-1 rounded-lg flex items-center gap-1.5 z-20 shadow-lg">
+                                        <Images className="w-3 h-3" />
+                                        +{item.url.length - 1} fotos
                                     </div>
                                 )}
 
@@ -189,11 +219,35 @@ export default function Galeria() {
                     onClick={() => setSelectedItem(null)}
                 >
                     <button
-                        className="absolute top-6 right-6 text-white/70 hover:text-white p-2 hover:bg-white/10 rounded-full transition-all"
+                        className="absolute top-6 right-6 text-white/70 hover:text-white p-2 hover:bg-white/10 rounded-full transition-all z-[70]"
                         onClick={() => setSelectedItem(null)}
                     >
                         <X className="w-8 h-8" />
                     </button>
+
+                    {/* Navigation Buttons */}
+                    {selectedItem.url.length > 1 && (
+                        <>
+                            <button
+                                className="absolute left-4 md:left-10 top-1/2 -translate-y-1/2 text-white/50 hover:text-white p-4 hover:bg-white/10 rounded-full transition-all z-[70]"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    prevImage();
+                                }}
+                            >
+                                <ChevronLeft className="w-10 h-10" />
+                            </button>
+                            <button
+                                className="absolute right-4 md:right-10 top-1/2 -translate-y-1/2 text-white/50 hover:text-white p-4 hover:bg-white/10 rounded-full transition-all z-[70]"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    nextImage();
+                                }}
+                            >
+                                <ChevronRight className="w-10 h-10" />
+                            </button>
+                        </>
+                    )}
 
                     <div
                         className="relative w-full max-w-5xl max-h-full flex flex-col items-center"
@@ -201,17 +255,16 @@ export default function Galeria() {
                     >
                         {selectedItem.media_type === 'video' ? (
                             <div className="w-full aspect-video rounded-lg overflow-hidden shadow-2xl bg-black">
-                                {selectedItem.url.includes('youtube.com') || selectedItem.url.includes('youtu.be') ? (
+                                {selectedItem.url[0].includes('youtube.com') || selectedItem.url[0].includes('youtu.be') ? (
                                     <iframe
-                                        src={`https://www.youtube.com/embed/${getYouTubeId(selectedItem.url)}`}
+                                        src={`https://www.youtube.com/embed/${getYouTubeId(selectedItem.url[0])}`}
                                         className="w-full h-full"
                                         title={selectedItem.caption}
-                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                         allowFullScreen
                                     ></iframe>
                                 ) : (
                                     <video
-                                        src={selectedItem.url}
+                                        src={selectedItem.url[0]}
                                         controls
                                         className="w-full h-full"
                                         autoPlay
@@ -221,11 +274,18 @@ export default function Galeria() {
                                 )}
                             </div>
                         ) : (
-                            <img
-                                src={selectedItem.url}
-                                alt={selectedItem.caption}
-                                className="max-h-[80vh] w-auto object-contain rounded-lg shadow-2xl"
-                            />
+                            <div className="relative group/modal flex flex-col items-center">
+                                <img
+                                    src={selectedItem.url[currentImageIndex]}
+                                    alt={selectedItem.caption}
+                                    className="max-h-[80vh] w-auto object-contain rounded-lg shadow-2xl transition-all duration-300"
+                                />
+                                {selectedItem.url.length > 1 && (
+                                    <div className="absolute bottom-4 bg-black/50 backdrop-blur-md px-3 py-1 rounded-full text-white/80 text-xs font-bold">
+                                        {currentImageIndex + 1} de {selectedItem.url.length}
+                                    </div>
+                                )}
+                            </div>
                         )}
                         <div className="mt-6 text-center max-w-3xl">
                             <p className="text-white text-xl font-medium mb-2">{selectedItem.caption}</p>
