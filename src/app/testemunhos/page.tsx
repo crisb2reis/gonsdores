@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Quote, Star, User, Heart } from "lucide-react";
 import TestimonialModal from "@/components/TestimonialModal";
 import { supabase } from "@/lib/supabase";
+import { getAssetPath } from "@/lib/utils";
 
 interface Testimonial {
     id: string;
@@ -70,17 +71,30 @@ export default function Testemunhos() {
     return (
         <div className="flex flex-col min-h-screen bg-background">
             {/* Hero Section */}
-            <section className="bg-purple-900 py-24 text-center px-4 relative">
-                <div className="max-w-4xl mx-auto relative z-10">
-                    <h1 className="font-serif text-4xl md:text-5xl font-bold text-white mb-6">Testemunhos de Fé</h1>
-                    <p className="text-purple-100 text-lg md:text-xl max-w-2xl mx-auto">
+            <section className="relative py-32 text-center px-4 overflow-hidden min-h-[400px] flex items-center justify-center">
+                {/* Background Image with Overlay */}
+                <div className="absolute inset-0 z-0">
+                    <img 
+                        src={getAssetPath("/testemunhos-bg.png")}
+                        alt="Background Testemunhos"
+                        className="absolute inset-0 w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-purple-900/60 backdrop-blur-[1px]"></div>
+                    <div className="absolute inset-0 bg-gradient-to-b from-purple-950/20 via-transparent to-background"></div>
+                </div>
+
+                <div className="relative z-10 max-w-4xl mx-auto">
+                    <h1 className="font-serif text-5xl md:text-6xl font-bold text-white mb-6 drop-shadow-2xl animate-fade-in">
+                        Testemunhos de Fé
+                    </h1>
+                    <p className="text-purple-100 text-xl md:text-2xl max-w-2xl mx-auto leading-relaxed drop-shadow-lg">
                         Histórias reais de transformação, milagres e o amor de Deus manifestado em nossa comunidade.
                     </p>
                 </div>
             </section>
 
             {/* Testimonials Grid */}
-            <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full -mt-10 relative z-10">
+            <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full -mt-20 relative z-10">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {allTestimonials.map((t) => (
                         <div key={t.id} className="bg-white p-8 rounded-[2rem] shadow-lg border border-gray-100 flex flex-col hover:shadow-xl transition-all h-full">
@@ -141,6 +155,17 @@ export default function Testemunhos() {
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
             />
+
+            <style dangerouslySetInnerHTML={{
+                __html: `
+                @keyframes fadeIn {
+                    from { opacity: 0; transform: translateY(10px); }
+                    to { opacity: 1; transform: translateY(0); }
+                }
+                .animate-fade-in {
+                    animation: fadeIn 0.8s ease-out forwards;
+                }
+            `}} />
         </div>
     );
 }

@@ -1,17 +1,33 @@
 import { Calendar, Clock, MapPin, Users, Instagram, ListChecks } from "lucide-react";
+import { getAssetPath } from "@/lib/utils";
 
 export default function AtividadesSemanais() {
     return (
         <div className="flex flex-col min-h-screen bg-background text-foreground">
             {/* Hero Section */}
-            <section className="bg-purple-900 py-20 text-center px-4">
-                <h1 className="font-serif text-4xl md:text-5xl font-bold text-white mb-4">Oração Semanal</h1>
-                <p className="text-purple-100 text-lg max-w-2xl mx-auto">
-                    Participe dos nossos encontros e fortaleça sua fé. Temos atividades presenciais e online.
-                </p>
+            <section className="relative py-32 text-center px-4 overflow-hidden min-h-[400px] flex items-center justify-center">
+                {/* Background Image with Overlay */}
+                <div className="absolute inset-0 z-0">
+                    <img 
+                        src={getAssetPath("/oracao-bg.png")}
+                        alt="Background Oração"
+                        className="absolute inset-0 w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-purple-900/60 backdrop-blur-[1px]"></div>
+                    <div className="absolute inset-0 bg-gradient-to-b from-purple-950/20 via-transparent to-background"></div>
+                </div>
+
+                <div className="relative z-10 max-w-4xl mx-auto">
+                    <h1 className="font-serif text-5xl md:text-6xl font-bold text-white mb-6 drop-shadow-2xl animate-fade-in">
+                        Oração Semanal
+                    </h1>
+                    <p className="text-purple-50 text-xl md:text-2xl max-w-2xl mx-auto leading-relaxed font-light drop-shadow-lg">
+                        Participe dos nossos encontros e fortaleça sua fé. Temos atividades presenciais e online.
+                    </p>
+                </div>
             </section>
 
-            <section className="py-16 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 w-full -mt-10 relative z-10 space-y-8">
+            <section className="py-16 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 w-full -mt-20 relative z-10 space-y-8">
                 {/* Presencial Section */}
                 <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-8 md:p-12">
                     <div className="flex items-center gap-4 mb-8 border-b border-gray-100 pb-6">
@@ -114,6 +130,17 @@ export default function AtividadesSemanais() {
                     </p>
                 </div>
             </section>
+
+            <style dangerouslySetInnerHTML={{
+                __html: `
+                @keyframes fadeIn {
+                    from { opacity: 0; transform: translateY(10px); }
+                    to { opacity: 1; transform: translateY(0); }
+                }
+                .animate-fade-in {
+                    animation: fadeIn 0.8s ease-out forwards;
+                }
+            `}} />
         </div>
     );
 }

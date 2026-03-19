@@ -71,17 +71,29 @@ export default function Calendario() {
 
     return (
         <div className="flex flex-col min-h-screen bg-background">
-            <section className="bg-purple-900 py-20 text-center px-4 relative">
-                <div className="absolute inset-0 bg-black/20 z-0"></div>
-                <div className="relative z-10">
-                    <h1 className="font-serif text-4xl md:text-5xl font-bold text-white mb-4">Calendário de Atividades</h1>
-                    <p className="text-purple-100 text-lg max-w-2xl mx-auto">
+            <section className="relative py-32 text-center px-4 overflow-hidden min-h-[400px] flex items-center justify-center">
+                {/* Background Image with Overlay */}
+                <div className="absolute inset-0 z-0">
+                    <img 
+                        src={getAssetPath("/calendario-bg.png")}
+                        alt="Background Calendário"
+                        className="absolute inset-0 w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-purple-900/60 backdrop-blur-[1px]"></div>
+                    <div className="absolute inset-0 bg-gradient-to-b from-purple-950/20 via-transparent to-background"></div>
+                </div>
+
+                <div className="relative z-10 max-w-4xl mx-auto">
+                    <h1 className="font-serif text-5xl md:text-6xl font-bold text-white mb-6 drop-shadow-2xl animate-fade-in">
+                        Calendário de Atividades
+                    </h1>
+                    <p className="text-purple-100 text-xl md:text-2xl max-w-2xl mx-auto leading-relaxed drop-shadow-lg">
                         Programe-se para os nossos próximos encontros e eventos especiais da comunidade.
                     </p>
                 </div>
             </section>
 
-            <section className="py-16 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 w-full -mt-10 relative z-10 grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <section className="py-16 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 w-full -mt-20 relative z-10 grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {/* Events List */}
                 <div className="lg:col-span-2 space-y-6">
                     <h2 className="font-serif text-2xl font-bold text-gray-900 mb-6 border-b border-gray-200 pb-2">Próximos Eventos</h2>
