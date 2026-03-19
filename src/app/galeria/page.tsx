@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
-import { Camera, Calendar, Maximize2, X, Play } from "lucide-react";
+import { Camera, Calendar, Maximize2, X, Play, Shield, Sparkles, Users, Filter } from "lucide-react";
 import Image from "next/image";
 import { getAssetPath } from "@/lib/utils";
 
@@ -12,13 +12,15 @@ interface MediaItem {
     caption: string;
     event_date: string;
     media_type: 'image' | 'video';
-    thumbnail_url?: string; // Capa para vídeos
+    category: 'evento' | 'atividade';
+    thumbnail_url?: string;
 }
 
 export default function Galeria() {
     const [items, setItems] = useState<MediaItem[]>([]);
     const [loading, setLoading] = useState(true);
     const [selectedItem, setSelectedItem] = useState<MediaItem | null>(null);
+    const [activeFilter, setActiveFilter] = useState<string>("todos");
 
     useEffect(() => {
         fetchMedia();
@@ -34,10 +36,11 @@ export default function Galeria() {
         if (error) {
             console.error("Erro ao buscar mídia:", error);
         } else {
-            // Se media_type for nulo, assumimos que é 'image' (retrocompatibilidade)
+            // Se media_type ou category forem nulos, assumimos valores padrão
             const normalizedData = (data || []).map(item => ({
                 ...item,
-                media_type: item.media_type || 'image'
+                media_type: item.media_type || 'image',
+                category: item.category || 'atividade'
             }));
             setItems(normalizedData);
         }
@@ -62,6 +65,10 @@ export default function Galeria() {
 
         return item.url; // Fallback
     };
+    
+    const filteredItems = activeFilter === "todos" 
+        ? items 
+        : items.filter(item => item.category === activeFilter);
 
     return (
         <div className="flex flex-col min-h-screen bg-background">
@@ -76,6 +83,44 @@ export default function Galeria() {
                 </p>
             </section>
 
+            {/* Filter Tabs */}
+            <div className="bg-white sticky top-0 z-40 border-b border-gray-100 shadow-sm">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="flex items-center justify-center space-x-2 md:space-x-8 py-4 overflow-x-auto no-scrollbar">
+                        <button
+                            onClick={() => setActiveFilter("todos")}
+                            className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-all whitespace-nowrap ${activeFilter === "todos"
+                                    ? "bg-purple-700 text-white shadow-md shadow-purple-200"
+                                    : "text-gray-500 hover:bg-gray-100"
+                                }`}
+                        >
+                            <Filter className="w-4 h-4" />
+                            Todos
+                        </button>
+                        <button
+                            onClick={() => setActiveFilter("evento")}
+                            className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-all whitespace-nowrap ${activeFilter === "evento"
+                                    ? "bg-amber-600 text-white shadow-md shadow-amber-200"
+                                    : "text-gray-500 hover:bg-gray-100"
+                                }`}
+                        >
+                            <Sparkles className="w-4 h-4" />
+                            Eventos
+                        </button>
+                        <button
+                            onClick={() => setActiveFilter("atividade")}
+                            className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-all whitespace-nowrap ${activeFilter === "atividade"
+                                    ? "bg-emerald-600 text-white shadow-md shadow-emerald-200"
+                                    : "text-gray-500 hover:bg-gray-100"
+                                }`}
+                        >
+                            <Users className="w-4 h-4" />
+                            Atividades
+                        </button>
+                    </div>
+                </div>
+            </div>
+
             {/* Gallery Grid */}
             <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
                 {loading ? (
@@ -83,15 +128,15 @@ export default function Galeria() {
                         <div className="w-12 h-12 border-4 border-purple-700 border-t-transparent rounded-full animate-spin mb-4"></div>
                         <p className="text-gray-500 font-medium">Carregando memórias...</p>
                     </div>
-                ) : items.length === 0 ? (
+                ) : filteredItems.length === 0 ? (
                     <div className="text-center py-20 bg-white rounded-3xl border border-dashed border-gray-300">
                         <Camera className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                        <h2 className="text-xl font-bold text-gray-800">Ainda não temos mídias</h2>
-                        <p className="text-gray-500 mt-2">Em breve compartilharemos nossos momentos especiais aqui.</p>
+                        <h2 className="text-xl font-bold text-gray-800">Nenhuma mídia encontrada</h2>
+                        <p className="text-gray-500 mt-2">Tente outro filtro ou volte mais tarde.</p>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                        {items.map((item) => (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                        {filteredItems.map((item) => (
                             <div
                                 key={item.id}
                                 className="group relative aspect-square bg-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer"
@@ -115,13 +160,19 @@ export default function Galeria() {
                                     </div>
                                 )}
 
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
-                                    <div className="flex items-center gap-2 text-white/80 text-xs mb-2">
-                                        <Calendar className="w-3 h-3" />
-                                        {new Date(item.event_date).toLocaleDateString("pt-BR")}
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                                    <div className="flex flex-wrap gap-2 mb-2">
+                                        <div className="flex items-center gap-1.5 text-white/90 text-xs bg-white/20 backdrop-blur-md px-2 py-1 rounded-lg">
+                                            <Calendar className="w-3 h-3" />
+                                            {new Date(item.event_date).toLocaleDateString("pt-BR")}
+                                        </div>
+                                        <div className={`flex items-center gap-1.5 text-white text-[10px] font-bold uppercase px-2 py-1 rounded-lg backdrop-blur-md ${item.category === 'evento' ? 'bg-amber-500/80 shadow-lg shadow-amber-900/20' : 'bg-emerald-500/80 shadow-lg shadow-emerald-900/20'}`}>
+                                            {item.category === 'evento' ? <Sparkles className="w-2.5 h-2.5" /> : <Users className="w-2.5 h-2.5" />}
+                                            {item.category}
+                                        </div>
                                     </div>
-                                    <p className="text-white font-medium line-clamp-2">{item.caption}</p>
-                                    <div className="absolute top-4 right-4 bg-white/20 backdrop-blur-md p-2 rounded-full text-white">
+                                    <p className="text-white font-semibold text-lg leading-tight mb-2 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">{item.caption}</p>
+                                    <div className="absolute top-4 right-4 bg-white/20 backdrop-blur-md p-2 rounded-full text-white transform scale-0 group-hover:scale-100 transition-transform duration-300">
                                         <Maximize2 className="w-4 h-4" />
                                     </div>
                                 </div>

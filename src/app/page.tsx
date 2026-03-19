@@ -23,11 +23,11 @@ export default function Home() {
             Grupo de Oração <br className="hidden md:block" />
             Nossa Senhora das Dores
           </h1>
+          <p className="text-white/80 max-w-2xl mx-auto text-xl md:text-3xl mb-10">
+            Transformando dor em louvor.
+          </p>
           <p className="text-purple-100 text-lg md:text-xl font-medium mb-2">
             Igreja São Peregrino – São José dos Campos – SP
-          </p>
-          <p className="text-white/80 max-w-2xl mx-auto text-base md:text-lg mb-10">
-            Um lugar de encontro espiritual, esperança e renovação da fé através da interseção de Nossa Senhora das Dores.
           </p>
           <Link
             href="/pedidos-oracao"
@@ -95,24 +95,23 @@ export default function Home() {
               <div className="absolute inset-0 bg-gradient-to-t lg:bg-gradient-to-r from-purple-900 via-transparent to-transparent opacity-90" />
             </div>
             <div className="lg:w-1/2 p-10 md:p-16 flex flex-col justify-center bg-purple-900">
-              <h2 className="font-serif text-3xl md:text-4xl font-bold text-white mb-6">Santo Terço</h2>
+              <h2 className="font-serif text-3xl md:text-4xl font-bold text-white mb-6">Grupo de Oração Nossa Senhora das Dores</h2>
               <p className="text-purple-100 mb-8 max-w-lg leading-relaxed">
-                Rezar o Terço é contemplar com Nossa Senhora das Dores o rosto de Cristo. Junte-se a nós semanalmente para este momento de profunda conexão espiritual.
+                Um encontro semanal de espiritualidade, comunhão e crescimento na fé. Caminhamos juntos, confiando nossas dores e alegrias ao Senhor, permitindo que Ele transforme nossas vidas com seu amor.
               </p>
 
               <div className="space-y-6 mb-10">
                 <div className="flex items-center gap-4 bg-purple-800/50 p-4 rounded-2xl border border-purple-700">
                   <Clock className="h-6 w-6 text-purple-300 shrink-0" />
                   <div>
-                    <h4 className="text-white font-medium">Toda Terça-feira, 20h00</h4>
+                    <h4 className="text-white font-medium">Toda Terça-feira, 19h50</h4>
                     <p className="text-purple-200 text-sm">Após a Missa das 19h</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-4 bg-purple-800/50 p-4 rounded-2xl border border-purple-700">
                   <MapPin className="h-6 w-6 text-purple-300 shrink-0" />
                   <div>
-                    <h4 className="text-white font-medium">Capela Principal</h4>
-                    <p className="text-purple-200 text-sm">Igreja São Peregrino</p>
+                    <h4 className="text-white font-medium">Igreja São Peregrino</h4>
                   </div>
                 </div>
               </div>
@@ -120,10 +119,11 @@ export default function Home() {
               <div>
                 <h4 className="text-white font-medium mb-4">Estrutura da Oração:</h4>
                 <ol className="list-decimal list-inside text-purple-200 space-y-2">
-                  <li>Acolhida e Louvor</li>
-                  <li>Leitura da Palavra</li>
-                  <li>Recitação do Terço e Contemplação</li>
-                  <li>Partilha e Pedidos</li>
+                  <li>Acolhida com cânticos e louvores preparatórios.</li>
+                  <li>Momento de oração no Espirito Santo.</li>
+                  <li>Pregação.</li>
+                  <li>Momento de partilha.</li>
+                  <li>Oração final e bênção de encerramento.</li>
                 </ol>
               </div>
             </div>

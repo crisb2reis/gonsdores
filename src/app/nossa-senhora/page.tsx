@@ -5,37 +5,37 @@ import { getAssetPath } from "@/lib/utils";
 const seteDores = [
     {
         title: "1. A profecia de Simeão",
-        description: "Simeão profetizou que uma espada de dor traspassaria a alma de Maria, revelando que seu Filho seria sinal de contradição.",
+        description: "Simeão anunciou que uma espada de dor traspassaria a alma de Maria, revelando que seu Filho seria sinal de contradição.",
         verse: "Lucas 2, 34-35"
     },
     {
         title: "2. A fuga para o Egito",
-        description: "Para salvar a vida de Jesus da perseguição de Herodes, Maria e José fogem para o Egito, enfrentando os perigos do deserto.",
+        description: "Para salvar o Menino Jesus da perseguição de Herodes, Maria e José partem para o Egito, enfrentando as incertezas do exílio.",
         verse: "Mateus 2, 13-15"
     },
     {
-        title: "3. A perda de Jesus em Jerusalém",
-        description: "Por três dias, Maria e José procuram angustiados pelo Menino Jesus no Templo de Jerusalém.",
+        title: "3. A perda do Menino Jesus no Templo",
+        description: "Durante três dias, Maria e José procuram, aflitos, pelo Menino Jesus em Jerusalém.",
         verse: "Lucas 2, 41-50"
     },
     {
         title: "4. O encontro com Jesus no caminho do Calvário",
-        description: "Maria contempla seu Filho carregando a cruz, sofrendo insultos e dores físicas imensas.",
+        description: "Maria encontra seu Filho carregando a cruz, participando profundamente de sua dor e entrega.",
         verse: "Lucas 23, 27-31"
     },
     {
-        title: "5. Aos pés da Cruz",
-        description: "Maria permanece fiel junto à cruz, testemunhando a agonia e morte de seu amado Filho.",
+        title: "5. Maria aos pés da Cruz",
+        description: "Maria permanece junto à cruz, unindo seu coração ao sacrifício redentor de Cristo.",
         verse: "João 19, 25-27"
     },
     {
         title: "6. Maria recebe Jesus em seus braços",
-        description: "A dor da Mãe ao receber o corpo sem vida de seu Filho, descido da cruz e colocado em seu colo.",
+        description: "A Mãe acolhe, com imensa dor e amor, o corpo de seu Filho descido da cruz.",
         verse: "João 19, 38-40"
     },
     {
         title: "7. Jesus é colocado no sepulcro",
-        description: "A última despedida de Maria ao ver o sepulcro ser fechado, guardando no coração a esperança da ressurreição.",
+        description: "Maria contempla o sepultamento do Senhor, guardando no coração a esperança da Ressurreição.",
         verse: "João 19, 41-42"
     }
 ];
@@ -80,10 +80,10 @@ export default function NossaSenhora() {
                     <h2 className="font-serif text-3xl md:text-4xl font-bold text-purple-900 mb-8">O Significado da Devoção</h2>
                     <div className="space-y-6 text-gray-600 leading-relaxed text-lg">
                         <p>
-                            Nossa Senhora das Dores (ou Mater Dolorosa) é um dos títulos da Virgem Maria que recorda sua participação direta no mistério da Paixão de Cristo. Ela é a "Virgem Fiel" que não fugiu da dor, mas a abraçou com esperança.
+                            Nossa Senhora das Dores (ou Mater Dolorosa) é um dos títulos da Virgem Maria que recorda sua íntima participação no mistério da Paixão de Cristo. Ela é a Virgem Fiel, que não fugiu da dor, mas a acolheu com fé e esperança.
                         </p>
                         <p>
-                            Para o nosso Grupo de Oração, pertencente à Renovação Carismática Católica, a Virgem das Dores é modelo de perseverança. Sob seu manto, aprendemos que o sofrimento unido ao de Jesus não é em vão, mas torna-se caminho de santificação.
+                            Para o nosso Grupo de Oração, pertencente à Renovação Carismática Católica, a Virgem das Dores é modelo de perseverança e confiança. Sob seu manto, aprendemos que o sofrimento unido ao de Cristo não é em vão, mas se torna caminho de graça e santificação.
                         </p>
                     </div>
                 </div>
@@ -94,7 +94,7 @@ export default function NossaSenhora() {
                 <div className="max-w-5xl mx-auto px-4">
                     <div className="text-center mb-16">
                         <h2 className="font-serif text-3xl md:text-4xl font-bold text-purple-900 mb-4">As Sete Dores de Maria</h2>
-                        <p className="text-gray-600">Meditando os passos de dor e amor da Mãe de Deus.</p>
+                        <p className="text-gray-600">Meditamos os momentos de dor e amor vividos pela Mãe de Deus.</p>
                     </div>
 
                     <div className="space-y-4">

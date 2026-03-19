@@ -20,7 +20,7 @@ export default function AtividadesSemanais() {
                         </div>
                         <div>
                             <h2 className="font-serif text-2xl font-bold text-gray-900">Encontro Presencial</h2>
-                            <p className="text-gray-500">Venha rezar conosco na paróquia</p>
+                            <p className="text-gray-500">Venha rezar conosco na Igreja São Peregrino</p>
                         </div>
                     </div>
 
@@ -53,7 +53,7 @@ export default function AtividadesSemanais() {
                             <ListChecks className="w-6 h-6 text-purple-600 mt-1" />
                             <div>
                                 <p className="text-sm text-gray-500 font-medium">Atividade</p>
-                                <p className="font-semibold text-gray-900">Santo Terço e Louvor</p>
+                                <p className="font-semibold text-gray-900">Oração e Pregação</p>
                             </div>
                         </div>
                     </div>
@@ -65,9 +65,9 @@ export default function AtividadesSemanais() {
                         <div className="space-y-4">
                             {[
                                 "Acolhida com cânticos e louvores preparatórios.",
-                                "Leitura de um trecho da Palavra de Deus.",
-                                "Recitação dos mistérios do Santo Terço.",
-                                "Momento de partilha e reflexão comunitária.",
+                                "Momento de oração no Espirito Santo.",
+                                "Pregação.",
+                                "Momento de partilha.",
                                 "Oração final e bênção de encerramento."
                             ].map((step, index) => (
                                 <div key={index} className="flex flex-row items-center gap-4">
@@ -88,7 +88,7 @@ export default function AtividadesSemanais() {
                             <Instagram className="h-8 w-8 text-pink-600" />
                         </div>
                         <div>
-                            <h2 className="font-serif text-2xl font-bold text-gray-900">Santo Terço Online</h2>
+                            <h2 className="font-serif text-2xl font-bold text-gray-900">Oração da Coroa de Nossa Senhora das Dores</h2>
                             <p className="text-gray-500">Transmissão ao vivo pelo Instagram</p>
                         </div>
                     </div>
@@ -98,7 +98,7 @@ export default function AtividadesSemanais() {
                             <Clock className="w-6 h-6 text-pink-600 mt-1" />
                             <div>
                                 <p className="text-sm text-gray-500 font-medium">Dia e Horário</p>
-                                <p className="font-semibold text-gray-900">Segunda-feira, 20h30</p>
+                                <p className="font-semibold text-gray-900">Segunda-feira, 21h00</p>
                             </div>
                         </div>
                         <div className="flex items-start gap-4">
@@ -110,7 +110,7 @@ export default function AtividadesSemanais() {
                         </div>
                     </div>
                     <p className="text-gray-600">
-                        Inicie a sua semana com a intercessão de Nossa Senhora. Junte-se à nossa live e envie suas intenções nos comentários.
+                        Inicie a sua semana com a intercessão de Nossa Senhora das Dores. Junte-se à nossa live e envie suas intenções nos comentários.
                     </p>
                 </div>
             </section>
