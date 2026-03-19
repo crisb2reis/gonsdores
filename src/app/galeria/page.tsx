@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { Camera, Calendar, Maximize2, X, Play, Sparkles, Users, Filter, ChevronLeft, ChevronRight, Images } from "lucide-react";
+import { getAssetPath } from "@/lib/utils";
 
 interface MediaItem {
     id: string;
@@ -94,14 +95,26 @@ export default function Galeria() {
     return (
         <div className="flex flex-col min-h-screen bg-background">
             {/* Header / Hero */}
-            <section className="bg-purple-900 py-20 text-center px-4">
-                <div className="w-20 h-20 bg-purple-100 rounded-full flex items-center justify-center mb-6 mx-auto">
-                    <Camera className="h-10 w-10 text-purple-700" />
+            <section className="relative py-32 text-center px-4 overflow-hidden min-h-[400px] flex items-center justify-center">
+                {/* Background Image with Overlay */}
+                <div className="absolute inset-0 z-0">
+                    <img 
+                        src={getAssetPath("/galeria-bg.png")}
+                        alt="Background Galeria"
+                        className="absolute inset-0 w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-purple-900/60 backdrop-blur-[1px]"></div>
+                    <div className="absolute inset-0 bg-gradient-to-b from-purple-950/20 via-transparent to-background"></div>
                 </div>
-                <h1 className="font-serif text-4xl md:text-5xl font-bold text-white mb-4">Galeria de Fotos</h1>
-                <p className="text-purple-100 text-lg max-w-2xl mx-auto">
-                    Momentos de fé, união e celebração em nossa comunidade.
-                </p>
+
+                <div className="relative z-10 max-w-4xl mx-auto flex flex-col items-center">
+                    <h1 className="font-serif text-5xl md:text-6xl font-bold text-white mb-6 drop-shadow-2xl animate-fade-in">
+                        Galeria de Fotos
+                    </h1>
+                    <p className="text-purple-100 text-xl md:text-2xl max-w-2xl mx-auto leading-relaxed drop-shadow-lg">
+                        Momentos de fé, união e celebração em nossa comunidade.
+                    </p>
+                </div>
             </section>
 
             {/* Filter Tabs */}
@@ -301,11 +314,11 @@ export default function Galeria() {
             <style dangerouslySetInnerHTML={{
                 __html: `
                 @keyframes fadeIn {
-                    from { opacity: 0; }
-                    to { opacity: 1; }
+                    from { opacity: 0; transform: translateY(10px); }
+                    to { opacity: 1; transform: translateY(0); }
                 }
                 .animate-fade-in {
-                    animation: fadeIn 0.3s ease-out forwards;
+                    animation: fadeIn 0.8s ease-out forwards;
                 }
             `}} />
         </div>

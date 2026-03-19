@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { HeartHandshake, CheckCircle2, Send, Loader2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { supabase } from "@/lib/supabase";
+import { getAssetPath } from "@/lib/utils";
 
 export default function PedidosOracao() {
     const [nome, setNome] = useState("");
@@ -98,17 +99,29 @@ export default function PedidosOracao() {
     return (
         <div className="flex flex-col min-h-screen bg-background">
             {/* Hero Section */}
-            <section className="bg-purple-900 py-20 text-center px-4 relative flex flex-col items-center">
-                <div className="w-20 h-20 bg-purple-100 rounded-full flex items-center justify-center mb-6">
-                    <HeartHandshake className="h-10 w-10 text-purple-700" />
+            <section className="relative py-32 text-center px-4 overflow-hidden min-h-[400px] flex items-center justify-center">
+                {/* Background Image with Overlay */}
+                <div className="absolute inset-0 z-0">
+                    <img 
+                        src={getAssetPath("/pedidos-bg.png")}
+                        alt="Background Pedidos"
+                        className="absolute inset-0 w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-purple-900/60 backdrop-blur-[1px]"></div>
+                    <div className="absolute inset-0 bg-gradient-to-b from-purple-950/20 via-transparent to-background"></div>
                 </div>
-                <h1 className="font-serif text-4xl md:text-5xl font-bold text-white mb-4">Pedidos de Oração</h1>
-                <p className="text-purple-100 text-lg max-w-2xl mx-auto">
-                    "Pedi, e dar-se-vos-á; buscai, e encontrareis." Deixe sua intenção para que possamos rezar por você.
-                </p>
+
+                <div className="relative z-10 max-w-4xl mx-auto flex flex-col items-center">
+                    <h1 className="font-serif text-5xl md:text-6xl font-bold text-white mb-6 drop-shadow-2xl animate-fade-in">
+                        Pedidos de Oração
+                    </h1>
+                    <p className="text-purple-100 text-xl md:text-2xl max-w-2xl mx-auto leading-relaxed drop-shadow-lg">
+                        "Pedi, e dar-se-vos-á; buscai, e encontrareis." Deixe sua intenção para que possamos rezar por você.
+                    </p>
+                </div>
             </section>
 
-            <section className="py-16 max-w-4xl mx-auto px-4 sm:px-6 w-full -mt-10 relative z-10 space-y-16">
+            <section className="py-16 max-w-4xl mx-auto px-4 sm:px-6 w-full -mt-20 relative z-10 space-y-16">
                 {/* Form Section */}
                 <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-8 md:p-12">
 
@@ -298,6 +311,13 @@ export default function PedidosOracao() {
         .hide-scroll {
           -ms-overflow-style: none;
           scrollbar-width: none;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
         }
       `}} />
         </div>
