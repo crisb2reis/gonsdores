@@ -389,8 +389,8 @@ export default function AdminGaleria() {
                                     <div className="flex items-center justify-between gap-2 mb-1">
                                         <p className="font-bold text-gray-900 truncate">{item.caption}</p>
                                         <div className="flex gap-1">
-                                            <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold uppercase ${item.media_type === 'video' ? 'bg-blue-100 text-blue-700' : 'bg-purple-100 text-purple-700'}`}>
-                                                {item.media_type}
+                                            <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${item.media_type === 'video' ? 'bg-blue-100 text-blue-700' : 'bg-purple-100 text-purple-700'}`}>
+                                                {item.media_type === 'video' ? 'VÍDEO' : 'IMAGEM'}
                                             </span>
                                             <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold uppercase ${item.category === 'evento' ? 'bg-amber-100 text-amber-700' : 'bg-emerald-100 text-emerald-700'}`}>
                                                 {item.category}
