@@ -5,6 +5,7 @@ import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 import { Camera, Plus, Trash2, Calendar, Link as LinkIcon, Image as ImageIcon, Loader2, AlertCircle, Play } from "lucide-react";
 import Link from "next/link";
 import LogoutButton from "@/components/LogoutButton";
+import { formatDate } from "@/lib/utils";
 
 interface MediaItem {
     id: string;
@@ -399,7 +400,7 @@ export default function AdminGaleria() {
                                     </div>
                                     <div className="flex items-center gap-2 text-gray-500 text-xs">
                                         <Calendar className="w-3 h-3" />
-                                        {new Date(item.event_date).toLocaleDateString("pt-BR")}
+                                        {formatDate(item.event_date)}
                                     </div>
                                 </div>
                             </div>

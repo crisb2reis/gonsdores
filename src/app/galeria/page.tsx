@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { Camera, Calendar, Maximize2, X, Play, Sparkles, Users, Filter, ChevronLeft, ChevronRight, Images } from "lucide-react";
-import { getAssetPath } from "@/lib/utils";
+import { getAssetPath, formatDate } from "@/lib/utils";
 
 interface MediaItem {
     id: string;
@@ -207,7 +207,7 @@ export default function Galeria() {
                                     <div className="flex flex-wrap gap-2 mb-2">
                                         <div className="flex items-center gap-1.5 text-white/90 text-xs bg-white/20 backdrop-blur-md px-2 py-1 rounded-lg">
                                             <Calendar className="w-3 h-3" />
-                                            {new Date(item.event_date).toLocaleDateString("pt-BR")}
+                                            {formatDate(item.event_date)}
                                         </div>
                                         <div className={`flex items-center gap-1.5 text-white text-[10px] font-bold uppercase px-2 py-1 rounded-lg backdrop-blur-md ${item.category === 'evento' ? 'bg-amber-500/80 shadow-lg shadow-amber-900/20' : 'bg-emerald-500/80 shadow-lg shadow-emerald-900/20'}`}>
                                             {item.category === 'evento' ? <Sparkles className="w-2.5 h-2.5" /> : <Users className="w-2.5 h-2.5" />}
@@ -304,7 +304,7 @@ export default function Galeria() {
                             <p className="text-white text-xl font-medium mb-2">{selectedItem.caption}</p>
                             <div className="flex items-center justify-center gap-2 text-white/50 text-sm">
                                 <Calendar className="w-4 h-4" />
-                                {new Date(selectedItem.event_date).toLocaleDateString("pt-BR")}
+                                {formatDate(selectedItem.event_date)}
                             </div>
                         </div>
                     </div>
